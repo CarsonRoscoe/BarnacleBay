@@ -7,6 +7,7 @@ public class shipController : MonoBehaviour {
 	public float targetAngle = -1; 
 	public Rigidbody rb;
 	public float speed = 10;
+	public Transform CannonBall;
 
 	void Start(){
 		rb = GetComponent<Rigidbody> ();
@@ -54,12 +55,19 @@ public class shipController : MonoBehaviour {
 	}
 
 	public void fireLeft(){
+		var cb = Instantiate (CannonBall, this.transform.position, Quaternion.identity).GetComponent<CannonBall>();
+		cb.Direction = Direction.Left;
+		cb.Owner = gameObject;
+
 		//spawn cannon balls on left side of the ship
 		//set angle and velocity
 		//wont slow down, but slowly drop
 	}
 
 	public void fireRight(){
+		var cb = Instantiate (CannonBall, this.transform.position, Quaternion.identity).GetComponent<CannonBall>();
+		cb.Direction = Direction.Right;
+		cb.Owner = gameObject;
 		//spawn cannon balls on right side of the ship
 		//set angle and velocity
 		//wont slow down, but slowly drop

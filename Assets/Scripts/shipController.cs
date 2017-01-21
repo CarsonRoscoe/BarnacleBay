@@ -104,4 +104,11 @@ public class shipController : MonoBehaviour {
 		}
 	}
 
+    void OnCollisionEnter( Collision collision ) {
+        print( "wtf" );
+        if (collision.collider.tag == "CannonBall") {
+            var cannonBall = collision.gameObject.GetComponent<CannonBall>();
+            print( "hit" );
+        }
+    }
 }

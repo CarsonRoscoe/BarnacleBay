@@ -41,8 +41,6 @@ public class cameraController : MonoBehaviour {
 				smallZ = valuesTransform [i].position.z;
 		}
 			
-		Debug.Log ("smallX: " + smallX + "  smallZ: " + smallZ + "  largeX: " + largeX + "  largeZ: " + largeZ);
-		Debug.Log ("offsetX: " + offsetX + "  offsetZ: " + offsetZ);
 		smallX -= 60 + (largeX - smallX)/2;
 		smallZ -= 180 + (largeZ - smallZ)/2;
 		largeX += 60 + (largeX - smallX)/2;

@@ -1,0 +1,1 @@
+Part of the Unity Standard Asset package, not my own. Simply extracted for ease of use.

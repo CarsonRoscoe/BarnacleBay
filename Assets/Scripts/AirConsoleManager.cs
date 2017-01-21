@@ -14,11 +14,13 @@ public class AirConsoleManager : MonoBehaviour {
     void OnConnect(int controllerID ) {
         var playerID = AirConsole.instance.ConvertDeviceIdToPlayerNumber( controllerID );
         AirConsole.instance.SetActivePlayers();
+		GameObject.Find ("Main Camera").GetComponent<cameraController> ().updateValues ();
     }
 
     void OnDisconnect(int controllerID) {
         var playerID = AirConsole.instance.ConvertDeviceIdToPlayerNumber( controllerID );
         AirConsole.instance.SetActivePlayers();
+		GameObject.Find ("Main Camera").GetComponent<cameraController> ().updateValues ();
     }
 
     void OnMessage( int controllerID, JToken data ) {

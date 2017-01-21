@@ -17,5 +17,6 @@ public class RoundStart : MonoBehaviour {
             var ship = (Transform)Instantiate( Ship, Spawns[playerID], Quaternion.identity );
             GameDataManager.instance.SetPlayer( playerID, ship.gameObject );
         }
+		GameObject.Find ("Main Camera").GetComponent<cameraController> ().updateValues ();
 	}
 }

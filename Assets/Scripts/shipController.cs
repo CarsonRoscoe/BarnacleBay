@@ -44,6 +44,9 @@ public class shipController : MonoBehaviour {
 
 	public void rotateTowards(float x, float y){
 		//find angle from air console return point
+		if(x == 0 && y == 0){
+			targetAngle = -1;
+		}
 
 		//airconsole is stupid
 		x = -x;
@@ -65,18 +68,16 @@ public class shipController : MonoBehaviour {
 			targetAngle += 270;
 		}
 
-		if(x == 0 && y == 0){
-			targetAngle = -1;
-		}
+
 
 	}
 
 	void rotateLeft(){
-		this.transform.Rotate (new Vector3 (0, -1.5f, 0));
+		this.transform.Rotate (new Vector3 (0, -1, 0));
 	}
 
 	void rotateRight(){
-		this.transform.Rotate (new Vector3 (0, 1.5f, 0));
+		this.transform.Rotate (new Vector3 (0, 1, 0));
 	}
 
 	public void moveShip(){
@@ -124,12 +125,12 @@ public class shipController : MonoBehaviour {
 	}
 
 	public void boost(){
-		if (speed < 14)
+		if (speed < 28)
 			speed *= 1.2f;
 	}
 
 	public void brake(){
-		if (speed > 7)
+		if (speed > 14)
 		speed *= 0.83f;
 	}
 

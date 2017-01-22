@@ -22,6 +22,7 @@ public class shipController : MonoBehaviour {
 	private int _health;
 	public CannonBall cb;
 	public CannonBall cb2;
+	public Animator testing;
 	public int Health { 
 		get { 
 			return _health; 
@@ -38,6 +39,7 @@ public class shipController : MonoBehaviour {
 		rb = GetComponent<Rigidbody> ();
 		anim = this.GetComponent<Animation> ();
 		Health = 5;
+		testing.Play ("Boyancy");
 	}
 
 	public void rotateTowards(float x, float y){
@@ -78,13 +80,13 @@ public class shipController : MonoBehaviour {
 	}
 
 	public void moveShip(){
-		anim.Play ("Boyancy");
 		rb.velocity = -transform.forward * speed;
 	}
 
 	public void fireLeft(){
-		//anim.Play("CannonToLeft");
-		if (cb == null) {
+		
+		testing.Play ("FireOne");
+		/*if (cb == null) {
 			cb = Instantiate (CannonBall, LB.transform.position, Quaternion.identity).GetComponent<CannonBall> ();
 			cb.Direction = Direction.Left;
 			cb.location = Location.Back;
@@ -95,15 +97,15 @@ public class shipController : MonoBehaviour {
 			cb2.Direction = Direction.Left;
 			cb2.location = Location.Front;
 			cb2.Owner = gameObject;
-		}
+		}*/
 		//spawn cannon balls on left side of the ship
 		//set angle and velocity
 		//wont slow down, but slowly drop
 	}
 
 	public void fireRight(){
-		//anim ["CannonToLeft"].speed = -1;
-		//anim.Play ("CannonToLeft");
+		testing.Play ("FireTwo");
+		/*
 		if (cb == null) {
 			cb = Instantiate (CannonBall, RF.transform.position, Quaternion.identity).GetComponent<CannonBall> ();
 			cb.Direction = Direction.Right;
@@ -115,7 +117,7 @@ public class shipController : MonoBehaviour {
 			cb2.Direction = Direction.Right;
 			cb2.location = Location.Back;
 			cb2.Owner = gameObject;
-		}
+		}*/
 		//spawn cannon balls on right side of the ship
 		//set angle and velocity
 		//wont slow down, but slowly drop
@@ -149,6 +151,7 @@ public class shipController : MonoBehaviour {
 
     void OnCollisionEnter( Collision collision ) {
         if (collision.collider.tag == "CannonBall") {
+            AudioManager.instance.playSound( AudioManager.SFXID.CANNONIMPACT );
             var cannonBall = collision.gameObject.GetComponent<CannonBall>();
 			print ("hit");
 			Health--;

@@ -14,9 +14,12 @@ public class BoatManager : MonoBehaviour {
     public Button StartButton;
 
     void Start() {
-        AirConsole.instance.SetActivePlayers();
+        AirConsole.instance.SetActivePlayers(8);
         var startPos = new Vector3( 1.5f, 0, 72.3f );
+        var slot = 0;
         foreach(var deviceID in AirConsole.instance.GetActivePlayerDeviceIds) {
+            if (slot >= 8)
+                break;
             var playerID = AirConsole.instance.ConvertDeviceIdToPlayerNumber( deviceID );
             var ship = Instantiate( Ship );
             if ( ShipMaterials.Length > 0 ) {
@@ -28,6 +31,7 @@ public class BoatManager : MonoBehaviour {
             PlayersBoats.Add( playerID, ship.GetComponent<BoatAnimation>() );
             startPos = startPos.WithZ( startPos.z + 9f );
             SetPlayerTeamSelection( playerID, TeamSelection.FreeForAll );
+            slot++;
         }
     }
 

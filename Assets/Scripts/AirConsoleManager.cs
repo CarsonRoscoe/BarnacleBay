@@ -27,8 +27,10 @@ public class AirConsoleManager : MonoBehaviour {
 
     void OnConnect( int controllerID ) {
         AirConsole.instance.SetActivePlayers(8);
-        var playerID = AirConsole.instance.ConvertDeviceIdToPlayerNumber(controllerID);
-        addPlayerData(playerID);
+        PlayerData d = addPlayerData(controllerID);
+        foreach (var p in players) {
+            AirConsole.instance.Message(p.playerID, PlayerData.hexColor(p.color));
+        }
         var cameraController = GameObject.Find( "Main Camera" ).GetComponent<cameraController>();
         if ( cameraController != null ) {
             cameraController.updateValues();
@@ -39,27 +41,19 @@ public class AirConsoleManager : MonoBehaviour {
         AirConsole.instance.SetActivePlayers(8);
         var playerID = AirConsole.instance.ConvertDeviceIdToPlayerNumber( controllerID );
         removePlayerData(controllerID);
+        foreach (var p in AirConsole.instance.GetActivePlayerDeviceIds) {
+            AirConsole.instance.Message(p, PlayerData.hexColor((PlayerData.PlayerColors)AirConsole.instance.ConvertDeviceIdToPlayerNumber(p)));
+        }
         var cameraController = GameObject.Find( "Main Camera" ).GetComponent<cameraController>();
         if ( cameraController != null ) {
             cameraController.updateValues();
         }
     }
 
-    public void getPlayerDataArray() {
-        List<int> playerIDs = AirConsole.instance.GetActivePlayerDeviceIds.ToList<int>();
-        foreach (var p in playerIDs) {
-            int pid = AirConsole.instance.ConvertDeviceIdToPlayerNumber(p);
-            string name = AirConsole.instance.GetNickname(p);            
-            players.Add(new PlayerData(pid, name));
-        }
-        if (PlayerHUDHandler.instance != null)
-            PlayerHUDHandler.instance.loadList();
-    }
-
     public void removePlayerData(int playerID) {
         var missingID = 0;
         foreach (var pp in players) {
-            if (AirConsole.instance.ConvertPlayerNumberToDeviceId(pp.playerID) == -1)
+            if (pp.playerID == -1)
                 missingID = pp.playerID;
         }
         for (var i = 0; i < players.Count; i++) {
@@ -77,11 +71,13 @@ public class AirConsoleManager : MonoBehaviour {
         }
     }
 
-    public void addPlayerData(int playerID) {
-        string name = AirConsole.instance.GetNickname(AirConsole.instance.ConvertPlayerNumberToDeviceId(playerID));
-        players.Add(new PlayerData(playerID, name));
+    public PlayerData addPlayerData(int playerID) {
+        string name = AirConsole.instance.GetNickname(playerID) + " : " + playerID;
+        PlayerData d = new PlayerData(playerID, name, (PlayerData.PlayerColors)players.Count);
+        players.Add(d);
         if (PlayerHUDHandler.instance != null)
             PlayerHUDHandler.instance.loadList();
+        return d;
     }
 
     void OnMessage( int controllerID, JToken data ) {
@@ -142,9 +138,9 @@ public class AirConsoleManager : MonoBehaviour {
                 if (data["Start"] != null) {
                     if (controllerID == AirConsole.instance.GetMasterControllerDeviceId()) {
                         var splashMenuManager = GameObject.Find("SplashMenuManager");
-                        if (splashMenuManager != null) 
+                        if (splashMenuManager != null) {
                             splashMenuManager.GetComponent<SplashMenuManager>().GoToPlaySetup();
-                        else {
+                        } else {
                             var boatManager = GameObject.Find("BoatManager");
                             if (boatManager != null)
                                 boatManager.GetComponent<BoatManager>().StartGame();

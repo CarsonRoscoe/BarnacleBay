@@ -42,7 +42,7 @@ public class shipController : MonoBehaviour {
 		//find angle from air console return point
 
 		//airconsole is stupid
-		y = -y;
+		x = -x;
 
 		if (x >= 0 && y >= 0) {
 			targetAngle = Mathf.Asin (x / (Mathf.Sqrt (x * x + y * y)));
@@ -77,7 +77,7 @@ public class shipController : MonoBehaviour {
 
 	public void moveShip(){
 		anim.Play ("Boyancy");
-		rb.velocity = transform.forward * speed;
+		rb.velocity = -transform.forward * speed;
 	}
 
 	public void fireLeft(){

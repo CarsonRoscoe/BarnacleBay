@@ -6,6 +6,9 @@ using System;
 
 public class AirConsoleManager : MonoBehaviour {
     private string oldDpadDir;
+
+    public enum ControllerType { MENU_MASTER, MENU_REGULAR, GAME};
+
     void Start() {
         AirConsole.instance.onConnect += OnConnect;
         AirConsole.instance.onMessage += OnMessage;

@@ -9,13 +9,24 @@ public class cameraController : MonoBehaviour {
 	private float offsetZ;
 	private float fieldOfView = 14f;
 	private List<Transform> valuesTransform = new List<Transform> ();
-
+	private bool endG;
 	private float largeX = -10000000;
 	private float largeZ = -10000000;
 	private float smallX = 10000000;
 	private float smallZ = 10000000;
 	private float distZ;
 	private float distX;
+	private float startTime;
+
+	private Transform startPos;
+	public float speed = 0.5f;
+	private float journeyLength;
+
+	private float startFOV;
+	private float targetFOV;
+	public float speedFOV = 2f;
+	private float journeyFOV;
+
 	// Use this for initialization
 	void Start () {
 		offsetX = this.transform.position.x - 15;
@@ -49,23 +60,40 @@ public class cameraController : MonoBehaviour {
 		Vector3 temp = this.transform.position;
 		temp.x = ((largeX - smallX) / 2) + smallX + offsetX;
 		temp.z = ((largeZ - smallZ) / 2.3f) + smallZ + offsetZ;
-		this.transform.position = temp;
+		if (endG) {
+			float distCov = (Time.time - startTime) * speed;
+			journeyLength = Vector3.Distance (startPos.position, temp);
+			float fracJourney = distCov / journeyLength;
+			this.transform.position = Vector3.Lerp (startPos.position, temp, fracJourney);
 
-	//	if (distZ * distX > (largeZ - smallZ) * (largeX - smallX) ){
-	//		if(fieldOfView < 10)
-	//			fieldOfView += 0.01f;
-	//	} else if (distZ * distX < (largeZ - smallZ) * (largeX - smallX) ){
-	//		if (fieldOfView > 5)
-	//			fieldOfView -= 0.01f;
-	//	}
+			distX = largeX - smallX;
+			distZ = largeZ - smallZ;
 
-		distX = largeX - smallX;
-		distZ = largeZ - smallZ;
+			if (distX > distZ) {
+				Camera.main.fieldOfView = distX / fieldOfView;
+				targetFOV = Camera.main.fieldOfView;
+			} else {
+				Camera.main.fieldOfView = distZ / fieldOfView;
+				targetFOV = Camera.main.fieldOfView;
+			}
+			journeyFOV = Mathf.Abs (targetFOV - startFOV);
+			distCov = (Time.time - startTime) * speedFOV;
+			fracJourney = distCov / journeyFOV;
+			Camera.main.fieldOfView = Mathf.Lerp (startFOV, targetFOV, fracJourney);
 
-		if (distX > distZ) {
-			Camera.main.fieldOfView = distX / fieldOfView;
 		} else {
-			Camera.main.fieldOfView = distZ / fieldOfView;
+			this.transform.position = temp;
+
+			distX = largeX - smallX;
+			distZ = largeZ - smallZ;
+
+			if (distX > distZ) {
+				Camera.main.fieldOfView = distX / fieldOfView;
+				targetFOV = Camera.main.fieldOfView;
+			} else {
+				Camera.main.fieldOfView = distZ / fieldOfView;
+				targetFOV = Camera.main.fieldOfView;
+			}
 		}
 	}
 
@@ -78,5 +106,14 @@ public class cameraController : MonoBehaviour {
                 valuesTransform.Add( boat.transform );
             }
 		}
+	}
+
+	public void endGame(){
+		endG = true;
+		startTime = Time.time;
+		startPos = this.transform;
+		startFOV = Camera.main.fieldOfView;
+	
+
 	}
 }

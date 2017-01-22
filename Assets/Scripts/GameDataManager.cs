@@ -52,10 +52,13 @@ public class GameDataManager : MonoBehaviour {
         }
         if (oneIsAlive && !twoIsAlive) {
             print( "Team One WON" );
+			Camera.main.GetComponent<cameraController> ().endGame ();
         } else if (!oneIsAlive && twoIsAlive) {
             print( "Team Two WON" );
+			Camera.main.GetComponent<cameraController> ().endGame ();
         } else if (!oneIsAlive && !twoIsAlive && PlayersTeam.Keys.Count == 1) {
             print( "Player someone WON" );
+			Camera.main.GetComponent<cameraController> ().endGame ();
         }
     }
 

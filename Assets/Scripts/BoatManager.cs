@@ -102,6 +102,6 @@ public class BoatManager : MonoBehaviour {
 
     public void StartGame() {
         GameDataManager.instance.ReadyPlayers(PlayersSelection);
-        SceneManager.LoadScene( "TestScene" );
+        SceneManager.LoadScene( "Enviroment_Final" );
     }
 }

@@ -11,7 +11,7 @@ public class RoundStart : MonoBehaviour {
 	public bool start;
 
 	void Start () {
-        //AudioManager.instance.playGameMusic( AudioManager.MusicID.GAME );
+        AudioManager.instance.playGameMusic( AudioManager.MusicID.GAME );
         GameDataManager.instance.SetGameState (GameState.InGame);
         Spawns.Shuffle();
         GameDataManager.instance.ResetPlayerData();

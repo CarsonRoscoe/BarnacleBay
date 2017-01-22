@@ -15,18 +15,23 @@ public class AirConsoleManager : MonoBehaviour {
     void OnConnect(int controllerID ) {
         var playerID = AirConsole.instance.ConvertDeviceIdToPlayerNumber( controllerID );
         AirConsole.instance.SetActivePlayers();
-		GameObject.Find ("Main Camera").GetComponent<cameraController> ().updateValues ();
+        var cameraController = GameObject.Find( "Main Camera" ).GetComponent<cameraController>();
+        if (cameraController != null ) {
+            cameraController.updateValues();
+        }
     }
 
     void OnDisconnect(int controllerID) {
         var playerID = AirConsole.instance.ConvertDeviceIdToPlayerNumber( controllerID );
         AirConsole.instance.SetActivePlayers();
-		GameObject.Find ("Main Camera").GetComponent<cameraController> ().updateValues ();
+        var cameraController = GameObject.Find( "Main Camera" ).GetComponent<cameraController>();
+        if ( cameraController != null ) {
+            cameraController.updateValues();
+        }
     }
 
     void OnMessage( int controllerID, JToken data ) {
 		var playerID = AirConsole.instance.ConvertDeviceIdToPlayerNumber( controllerID );
-		print(string.Format("Player {0}", playerID));
         switch ( GameDataManager.instance.GameState ) {
             case GameState.InGame:
                 #region inGame Control Ship
@@ -76,8 +81,27 @@ public class AirConsoleManager : MonoBehaviour {
                 #endregion
                 break;
             case GameState.Menu:
+                //Right side
+                try {
+                    var dPadDirection = (string)data["dpad-right"]["message"]["direction"];
+                    if ( oldDpadDir != dPadDirection ) {
+                        oldDpadDir = dPadDirection;
+                        var splashMenuManager = GameObject.Find( "BoatManager" );
+                        if (splashMenuManager != null ) {
+                            var manager = splashMenuManager.GetComponent<BoatManager>();
+                            manager.PlayerSwitchedSelection( playerID, dPadDirection == "left" ? -1 : 1 );
+                        }
+                    }
+                    else {
+                        oldDpadDir = "";
+                    }
+
+                }
+                catch ( Exception e ) {
+                    print( e.ToString() );
+                }
                 if (AirConsole.instance.GetMasterControllerDeviceId() == controllerID) {
-                    print( "Master controlling is picking menu items" );
+                    
                 }
                 break;
         }

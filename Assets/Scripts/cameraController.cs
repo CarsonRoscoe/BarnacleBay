@@ -71,12 +71,12 @@ public class cameraController : MonoBehaviour {
 
 	public void updateValues(){
 		valuesTransform.Clear ();
-
 		foreach (var id in AirConsole.instance.GetActivePlayerDeviceIds) {
 			var playerID = AirConsole.instance.ConvertDeviceIdToPlayerNumber (id);
 			var boat = GameDataManager.instance.GetPlayer (playerID);
-			valuesTransform.Add (boat.transform);
+            if (boat != null ) {
+                valuesTransform.Add( boat.transform );
+            }
 		}
-			
 	}
 }

@@ -1,0 +1,124 @@
+fileFormatVersion: 2
+guid: 8480890f2e7abd24ab2cdf57c1fc704f
+timeCreated: 1485024706
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Boat_Boat
+    100002: Boat_Boat_Base
+    100004: Boat_Boat_Stack_1
+    100006: Boat_Boat_Stack_2
+    100008: Boat_Boat_Top
+    100010: Boat_Cannon_Holder_L
+    100012: Boat_Cannon_L
+    100014: Boat_Cannon_R
+    100016: //RootNode
+    100018: Cannon_Holder_R_Boat
+    400000: Boat_Boat
+    400002: Boat_Boat_Base
+    400004: Boat_Boat_Stack_1
+    400006: Boat_Boat_Stack_2
+    400008: Boat_Boat_Top
+    400010: Boat_Cannon_Holder_L
+    400012: Boat_Cannon_L
+    400014: Boat_Cannon_R
+    400016: //RootNode
+    400018: Cannon_Holder_R_Boat
+    2300000: Boat_Boat
+    2300002: Boat_Boat_Base
+    2300004: Boat_Boat_Stack_1
+    2300006: Boat_Boat_Stack_2
+    2300008: Boat_Boat_Top
+    2300010: Boat_Cannon_Holder_L
+    2300012: Boat_Cannon_L
+    2300014: Boat_Cannon_R
+    2300016: Cannon_Holder_R_Boat
+    3300000: Boat_Boat
+    3300002: Boat_Boat_Base
+    3300004: Boat_Boat_Stack_1
+    3300006: Boat_Boat_Stack_2
+    3300008: Boat_Boat_Top
+    3300010: Boat_Cannon_Holder_L
+    3300012: Boat_Cannon_L
+    3300014: Boat_Cannon_R
+    3300016: Cannon_Holder_R_Boat
+    4300000: Boat_Boat
+    4300002: Boat_Boat_Base
+    4300004: Boat_Boat_Stack_1
+    4300006: Boat_Boat_Stack_2
+    4300008: Boat_Boat_Top
+    4300010: Boat_Cannon_Holder_L
+    4300012: Boat_Cannon_L
+    4300014: Boat_Cannon_R
+    4300016: Cannon_Holder_R_Boat
+    9500000: //RootNode
+    11100000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

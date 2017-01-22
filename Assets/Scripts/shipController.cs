@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class shipController : MonoBehaviour {
 	private const float toDegrees = 57.2958f;
+    public int PlayerID;
 	public float targetAngle = -1; 
 	public Rigidbody rb;
 	public float speed = 10;
@@ -153,6 +154,10 @@ public class shipController : MonoBehaviour {
     }
 
 	void Die() {
-		transform.position = transform.position.WithY (-20);
-	}
+        GameDataManager.instance.RemovePlayer( PlayerID );
+        //Play death animation instead of just killing
+        Instantiate( explosion, this.transform.position, Quaternion.identity );
+        Destroy( gameObject );
+        Camera.main.GetComponent<cameraController>().updateValues();
+    }
 }

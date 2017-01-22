@@ -15,7 +15,7 @@ public class BoatManager : MonoBehaviour {
 
     void Start() {
         AirConsole.instance.SetActivePlayers();
-        var startPos = new Vector3( 1.5f, 0, 25 );
+        var startPos = new Vector3( 1.5f, 0, 72.3f );
         foreach(var deviceID in AirConsole.instance.GetActivePlayerDeviceIds) {
             var playerID = AirConsole.instance.ConvertDeviceIdToPlayerNumber( deviceID );
             var ship = Instantiate( Ship );

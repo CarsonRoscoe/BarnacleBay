@@ -18,10 +18,23 @@ public class shipController : MonoBehaviour {
 	public GameObject LFsmoke;
 	public GameObject RBsmoke;
 	public GameObject RFsmoke;
+	private int _health;
+	public int Health { 
+		get { 
+			return _health; 
+		}
+		private set {
+			_health = value;
+			if (_health == 0) {
+				Die ();
+			}
+		}
+	}
 
 	void Start(){
 		rb = GetComponent<Rigidbody> ();
 		anim = this.GetComponent<Animation> ();
+		Health = 5;
 	}
 
 	public void rotateTowards(float x, float y){
@@ -67,7 +80,7 @@ public class shipController : MonoBehaviour {
 	}
 
 	public void fireLeft(){
-		anim.Play("CannonToLeft");
+		//anim.Play("CannonToLeft");
 		var cb = Instantiate (CannonBall, LB.transform.position, Quaternion.identity).GetComponent<CannonBall>();
 		cb.Direction = Direction.Left;
 		cb.location = Location.Back;
@@ -83,8 +96,8 @@ public class shipController : MonoBehaviour {
 	}
 
 	public void fireRight(){
-		anim ["CannonToLeft"].speed = -1;
-		anim.Play ("CannonToLeft");
+		//anim ["CannonToLeft"].speed = -1;
+		//anim.Play ("CannonToLeft");
 
 		var cb = Instantiate (CannonBall, RF.transform.position, Quaternion.identity).GetComponent<CannonBall>();
 		cb.Direction = Direction.Right;
@@ -134,7 +147,12 @@ public class shipController : MonoBehaviour {
         if (collision.collider.tag == "CannonBall") {
             var cannonBall = collision.gameObject.GetComponent<CannonBall>();
 			print ("hit");
+			Health--;
 			Instantiate (explosion, this.transform.position, Quaternion.identity); 
         }
     }
+
+	void Die() {
+		transform.position = transform.position.WithY (-20);
+	}
 }

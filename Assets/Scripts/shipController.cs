@@ -20,6 +20,8 @@ public class shipController : MonoBehaviour {
 	public GameObject RBsmoke;
 	public GameObject RFsmoke;
 	private int _health;
+	public CannonBall cb;
+	public CannonBall cb2;
 	public int Health { 
 		get { 
 			return _health; 
@@ -68,11 +70,11 @@ public class shipController : MonoBehaviour {
 	}
 
 	void rotateLeft(){
-		this.transform.Rotate (new Vector3 (0, -1, 0));
+		this.transform.Rotate (new Vector3 (0, -1.5f, 0));
 	}
 
 	void rotateRight(){
-		this.transform.Rotate (new Vector3 (0, 1, 0));
+		this.transform.Rotate (new Vector3 (0, 1.5f, 0));
 	}
 
 	public void moveShip(){
@@ -82,15 +84,18 @@ public class shipController : MonoBehaviour {
 
 	public void fireLeft(){
 		//anim.Play("CannonToLeft");
-		var cb = Instantiate (CannonBall, LB.transform.position, Quaternion.identity).GetComponent<CannonBall>();
-		cb.Direction = Direction.Left;
-		cb.location = Location.Back;
-		cb.Owner = gameObject;
-		var cb2 = Instantiate (CannonBall, LF.transform.position, Quaternion.identity).GetComponent<CannonBall>();
-		cb2.Direction = Direction.Left;
-		cb2.location = Location.Front;
-		cb2.Owner = gameObject;
-
+		if (cb == null) {
+			cb = Instantiate (CannonBall, LB.transform.position, Quaternion.identity).GetComponent<CannonBall> ();
+			cb.Direction = Direction.Left;
+			cb.location = Location.Back;
+			cb.Owner = gameObject;
+		}
+		if (cb2 == null) {
+			cb2 = Instantiate (CannonBall, LF.transform.position, Quaternion.identity).GetComponent<CannonBall> ();
+			cb2.Direction = Direction.Left;
+			cb2.location = Location.Front;
+			cb2.Owner = gameObject;
+		}
 		//spawn cannon balls on left side of the ship
 		//set angle and velocity
 		//wont slow down, but slowly drop
@@ -99,33 +104,31 @@ public class shipController : MonoBehaviour {
 	public void fireRight(){
 		//anim ["CannonToLeft"].speed = -1;
 		//anim.Play ("CannonToLeft");
-
-		var cb = Instantiate (CannonBall, RF.transform.position, Quaternion.identity).GetComponent<CannonBall>();
-		cb.Direction = Direction.Right;
-		cb.location = Location.Front;
-		cb.Owner = gameObject;
-		var cb2 = Instantiate (CannonBall, RB.transform.position, Quaternion.identity).GetComponent<CannonBall>();
-		cb2.Direction = Direction.Right;
-		cb2.location = Location.Back;
-		cb2.Owner = gameObject;
+		if (cb == null) {
+			cb = Instantiate (CannonBall, RF.transform.position, Quaternion.identity).GetComponent<CannonBall> ();
+			cb.Direction = Direction.Right;
+			cb.location = Location.Front;
+			cb.Owner = gameObject;
+		}
+		if (cb2 == null) {
+			cb2 = Instantiate (CannonBall, RB.transform.position, Quaternion.identity).GetComponent<CannonBall> ();
+			cb2.Direction = Direction.Right;
+			cb2.location = Location.Back;
+			cb2.Owner = gameObject;
+		}
 		//spawn cannon balls on right side of the ship
 		//set angle and velocity
 		//wont slow down, but slowly drop
 	}
 
 	public void boost(){
-		speed *= 2;
-
-		//advanced functionality would be so that it starts increasing slowly 
-		//but then speeds up till max X speed
+		if (speed < 14)
+			speed *= 1.2f;
 	}
 
 	public void brake(){
-		speed *= 0.5f;
-		//decrease ship velocity by X amount
-
-		//advanced functionality would be so that it starts slowing down slowly
-		//but then faster and faster
+		if (speed > 7)
+		speed *= 0.83f;
 	}
 
 	void Update(){

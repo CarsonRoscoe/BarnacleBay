@@ -38,7 +38,25 @@ public class GameDataManager : MonoBehaviour {
     }
 
     public void RemovePlayer( int playerID ) {
+        Players.Remove( playerID );
+        PlayersTeam.Remove( playerID );
 
+        var oneIsAlive = false;
+        var twoIsAlive = false;
+        foreach (var playerKey in PlayersTeam.Keys) {
+            if (PlayersTeam[playerKey] == TeamSelection.One) {
+                oneIsAlive = true;
+            } else if (PlayersTeam[playerKey] == TeamSelection.Two) {
+                twoIsAlive = true;
+            }
+        }
+        if (oneIsAlive && !twoIsAlive) {
+            print( "Team One WON" );
+        } else if (!oneIsAlive && twoIsAlive) {
+            print( "Team Two WON" );
+        } else if (!oneIsAlive && !twoIsAlive && PlayersTeam.Keys.Count == 1) {
+            print( "Player someone WON" );
+        }
     }
 
     public GameObject GetPlayer( int playerID ) {

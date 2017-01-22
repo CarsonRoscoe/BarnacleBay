@@ -10,7 +10,7 @@ public class CannonBall : MonoBehaviour {
     public GameObject Owner;
     public Direction Direction = Direction.Left;
 	public Location location = Location.Front;
-    public int Power = 10;
+    public int Power = 5;
 
 	// Use this for initialization
 	void Start () {
@@ -18,13 +18,13 @@ public class CannonBall : MonoBehaviour {
 		if (Direction == Direction.Left && location == Location.Front) {
 			smoke.transform.position = Owner.GetComponent<shipController> ().LFsmoke.transform.position;
 		}
-		if (Direction == Direction.Right && location == Location.Front) {
+		else if (Direction == Direction.Right && location == Location.Front) {
 			smoke.transform.position = Owner.GetComponent<shipController> ().RFsmoke.transform.position;
 		}
-		if (Direction == Direction.Left && location == Location.Back) {
+		else if (Direction == Direction.Left && location == Location.Back) {
 			smoke.transform.position = Owner.GetComponent<shipController> ().LBsmoke.transform.position;
 		}
-		if (Direction == Direction.Right && location == Location.Back) {
+		else if (Direction == Direction.Right && location == Location.Back) {
 			smoke.transform.position = Owner.GetComponent<shipController> ().RBsmoke.transform.position;
 		}
 

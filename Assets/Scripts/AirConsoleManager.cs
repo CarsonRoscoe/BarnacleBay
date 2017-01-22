@@ -85,6 +85,7 @@ public class AirConsoleManager : MonoBehaviour {
                 break;
             case GameState.Menu:
                 //Right side
+
                 var dpadright = data["dpad-right"];
                 if ( dpadright != null ) {
                     var message = dpadright["message"];

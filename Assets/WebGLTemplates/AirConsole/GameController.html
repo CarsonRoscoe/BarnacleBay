@@ -67,4 +67,21 @@
 var airconsole = new AirConsole({orientation: AirConsole.ORIENTATION_LANDSCAPE});
 CtrlGenerator.setAirConsole(airconsole);
 CtrlGenerator.generate({"left":{"type":{"label":"Joystick","class_name":"Joystick"}},"middle":[{"label":"Start","key":"Start"}],"right":{"type":{"label":"DPad","class_name":"DPad"}}});
+
+airconsole.onConnect = function(device_id) {
+	if (airconsole.getMasterControllerDeviceId() != airconsole.getDeviceId()) {
+		document.getElementById("middle").display = "none";
+	} else {
+		document.getElementById("middle").display = "block";
+	}
+}
+
+airconsole.onDisconnect = function(device_id) {
+	if (airconsole.getMasterControllerDeviceId() != airconsole.getDeviceId()) {
+		document.getElementById("middle").display = "none";
+	} else {
+		document.getElementById("middle").display = "block";
+	}
+}
+
 </script></body></html>

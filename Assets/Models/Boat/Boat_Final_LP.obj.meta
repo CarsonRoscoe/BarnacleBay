@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 8480890f2e7abd24ab2cdf57c1fc704f
-timeCreated: 1485024706
+timeCreated: 1485071067
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -52,8 +52,6 @@ ModelImporter:
     4300012: Boat_Cannon_L
     4300014: Boat_Cannon_R
     4300016: Cannon_Holder_R_Boat
-    9500000: //RootNode
-    11100000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0

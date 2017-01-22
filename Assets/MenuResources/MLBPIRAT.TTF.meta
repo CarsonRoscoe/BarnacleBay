@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: a76284502232acf4690a55ea26926104
+timeCreated: 1485121670
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: MLB Pirates
+  fontNames:
+  - MLB Pirates
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

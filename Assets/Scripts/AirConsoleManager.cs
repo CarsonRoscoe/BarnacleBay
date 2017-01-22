@@ -3,19 +3,32 @@ using System.Collections;
 using NDream.AirConsole;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public class AirConsoleManager : MonoBehaviour {
+    public static AirConsoleManager instance;
     private string oldDpadDir;
+    public List<PlayerData> players;
 
-    void Start() {
+    void Awake() {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this);
         AirConsole.instance.onConnect += OnConnect;
         AirConsole.instance.onMessage += OnMessage;
         AirConsole.instance.onDisconnect += OnDisconnect;
     }
 
+    void Start() {
+         players = new List<PlayerData>();
+    }
+
     void OnConnect( int controllerID ) {
-        var playerID = AirConsole.instance.ConvertDeviceIdToPlayerNumber( controllerID );
-        AirConsole.instance.SetActivePlayers();
+        AirConsole.instance.SetActivePlayers(8);
+        var playerID = AirConsole.instance.ConvertDeviceIdToPlayerNumber(controllerID);
+        addPlayerData(playerID);
         var cameraController = GameObject.Find( "Main Camera" ).GetComponent<cameraController>();
         if ( cameraController != null ) {
             cameraController.updateValues();
@@ -23,12 +36,52 @@ public class AirConsoleManager : MonoBehaviour {
     }
 
     void OnDisconnect( int controllerID ) {
+        AirConsole.instance.SetActivePlayers(8);
         var playerID = AirConsole.instance.ConvertDeviceIdToPlayerNumber( controllerID );
-        AirConsole.instance.SetActivePlayers();
+        removePlayerData(controllerID);
         var cameraController = GameObject.Find( "Main Camera" ).GetComponent<cameraController>();
         if ( cameraController != null ) {
             cameraController.updateValues();
         }
+    }
+
+    public void getPlayerDataArray() {
+        List<int> playerIDs = AirConsole.instance.GetActivePlayerDeviceIds.ToList<int>();
+        foreach (var p in playerIDs) {
+            int pid = AirConsole.instance.ConvertDeviceIdToPlayerNumber(p);
+            string name = AirConsole.instance.GetNickname(p);            
+            players.Add(new PlayerData(pid, name));
+        }
+        if (PlayerHUDHandler.instance != null)
+            PlayerHUDHandler.instance.loadList();
+    }
+
+    public void removePlayerData(int playerID) {
+        var missingID = 0;
+        foreach (var pp in players) {
+            if (AirConsole.instance.ConvertPlayerNumberToDeviceId(pp.playerID) == -1)
+                missingID = pp.playerID;
+        }
+        for (var i = 0; i < players.Count; i++) {
+            if (players[i].playerID == missingID) {
+                players.RemoveAt(i);
+            }
+        }
+        if (PlayerHUDHandler.instance != null)
+            PlayerHUDHandler.instance.loadList();
+    }
+
+    public void resetGame() {
+        foreach (var p in players) {
+            p.resetPlayer();
+        }
+    }
+
+    public void addPlayerData(int playerID) {
+        string name = AirConsole.instance.GetNickname(AirConsole.instance.ConvertPlayerNumberToDeviceId(playerID));
+        players.Add(new PlayerData(playerID, name));
+        if (PlayerHUDHandler.instance != null)
+            PlayerHUDHandler.instance.loadList();
     }
 
     void OnMessage( int controllerID, JToken data ) {

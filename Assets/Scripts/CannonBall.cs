@@ -11,6 +11,8 @@ public class CannonBall : MonoBehaviour {
     public Direction Direction = Direction.Left;
 	public Location location = Location.Front;
     public int Power = 5;
+    private float timePassed = 0f;
+    public const float deathTime = 8f; //destroy after 5 seconds.
 
 	// Use this for initialization
 	void Start () {
@@ -34,7 +36,8 @@ public class CannonBall : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (transform.position.y < -20) {
+        timePassed += Time.deltaTime;
+		if (transform.position.y < -20 || timePassed >= deathTime) {
             Destroy( gameObject );
         }
 	}

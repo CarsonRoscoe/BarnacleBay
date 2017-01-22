@@ -7,8 +7,6 @@ using System;
 public class AirConsoleManager : MonoBehaviour {
     private string oldDpadDir;
 
-    public enum ControllerType { MENU_MASTER, MENU_REGULAR, GAME};
-
     void Start() {
         AirConsole.instance.onConnect += OnConnect;
         AirConsole.instance.onMessage += OnMessage;
@@ -87,7 +85,19 @@ public class AirConsoleManager : MonoBehaviour {
                 #endregion
                 break;
             case GameState.Menu:
-                //Right side
+                    //Right side
+                if (data["Start"] != null) {
+                    if (controllerID == AirConsole.instance.GetMasterControllerDeviceId()) {
+                        var splashMenuManager = GameObject.Find("SplashMenuManager");
+                        if (splashMenuManager != null) 
+                            splashMenuManager.GetComponent<SplashMenuManager>().GoToPlaySetup();
+                        else {
+                            var boatManager = GameObject.Find("BoatManager");
+                            if (boatManager != null)
+                                boatManager.GetComponent<BoatManager>().StartGame();
+                        }
+                    }
+                }
                 var dpadright = data["dpad-right"];
                 if ( dpadright != null ) {
                     var message = dpadright["message"];
@@ -95,7 +105,7 @@ public class AirConsoleManager : MonoBehaviour {
                         var dPadDirection = (string)message["direction"];
                         if ( oldDpadDir != dPadDirection ) {
                             oldDpadDir = dPadDirection;
-                            var splashMenuManager = GameObject.Find( "BoatManager" );
+                            var splashMenuManager = GameObject.Find("BoatManager");
                             if ( splashMenuManager != null ) {
                                 var manager = splashMenuManager.GetComponent<BoatManager>();
                                 manager.PlayerSwitchedSelection( playerID, dPadDirection == "left" ? -1 : 1 );

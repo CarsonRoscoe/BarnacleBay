@@ -6,6 +6,7 @@ public class shipPilot : MonoBehaviour {
 
 	public GameObject ship;
 	public shipController shipControl;
+	public Animation am;
 	// Use this for initialization
 	void Start () {
 		shipControl = ship.GetComponent<shipController>();
@@ -14,7 +15,8 @@ public class shipPilot : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKey("w")){
-			shipControl.rotateTowards(0.6f,0.8f);
+		//	am ["CannonToLeft"].speed = -1;
+			am.Play ("CannonToLeft");
 		}
 		if (Input.GetKey("a")){
 			shipControl.rotateTowards(-1,0);

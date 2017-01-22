@@ -10,6 +10,7 @@ public class RoundStart : MonoBehaviour {
 	public bool start;
 
 	void Start () {
+		GameDataManager.instance.SetGameState (GameState.InGame);
         Spawns.Shuffle();
         GameDataManager.instance.ResetPlayerData();
 	    foreach(var id in AirConsole.instance.GetActivePlayerDeviceIds) {

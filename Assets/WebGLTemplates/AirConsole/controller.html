@@ -68,6 +68,14 @@ var airconsole = new AirConsole({orientation: AirConsole.ORIENTATION_LANDSCAPE})
 CtrlGenerator.setAirConsole(airconsole);
 CtrlGenerator.generate({"left":{"type":{"label":"Joystick","class_name":"Joystick"}},"middle":[{"label":"Start","key":"Start"}],"right":{"type":{"label":"DPad","class_name":"DPad"}}});
 
+airconsole.onMessage = function(device_id, data) {
+	setControllerColor(data);
+}
+
+function setControllerColor(c) {
+	document.getElementsByClassName("gamepad_container")[0].style.backgroundColor = "#" + c;
+}
+
 airconsole.onConnect = function(device_id) {
 	if (airconsole.getMasterControllerDeviceId() != airconsole.getDeviceId()) {
 		document.getElementById("middle").display = "none";

@@ -11,7 +11,7 @@ public class RoundStart : MonoBehaviour {
 	public bool start;
 
 	void Start () {
-        //AudioManager.instance.playGameMusic( AudioManager.MusicID.GAME );
+        AudioManager.instance.playGameMusic( AudioManager.MusicID.GAME );
         GameDataManager.instance.SetGameState (GameState.InGame);
         Spawns.Shuffle();
         GameDataManager.instance.ResetPlayerData();
@@ -20,8 +20,12 @@ public class RoundStart : MonoBehaviour {
             var ship = (Transform)Instantiate( Ship, Spawns[playerID], Quaternion.identity );
             if ( ShipMaterials.Length > 0 ) {
                 foreach ( var renderer in ship.GetComponentsInChildren<Renderer>() ) {
-                    if (renderer.gameObject.name == "DoneBoat")
-                        renderer.material = ShipMaterials[playerID];
+                    //Name of piece with renderer. Change after gamejam cause hack
+                    if ( renderer.gameObject.name == "polySurface1" ) {
+                        var materials = renderer.materials;
+                        renderer.materials = new Material[] { ShipMaterials[playerID], ShipMaterials[playerID], ShipMaterials[playerID], ShipMaterials[playerID] };
+                        print( "Material change" );
+                    }
                 }
             }
             ship.GetComponent<shipController>().PlayerID = playerID;

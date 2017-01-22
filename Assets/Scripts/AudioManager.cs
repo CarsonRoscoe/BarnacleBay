@@ -38,22 +38,10 @@ public class AudioManager : MonoBehaviour {
     void Awake() {
         if ( instance == null ) {
             instance = this;
+            DontDestroyOnLoad( gameObject );
         }
         else
             Destroy( this );
-    }
-
-    public void Start() {
-        //DontDestroyOnLoad( CannonFire );
-        //DontDestroyOnLoad( CannonImpact );
-        //DontDestroyOnLoad( RockCollision );
-        //DontDestroyOnLoad( Sinking );
-        //DontDestroyOnLoad( Waves );
-        //DontDestroyOnLoad( Seagulls );
-        //DontDestroyOnLoad( OnButtonClick );
-        //DontDestroyOnLoad( MenuMusicIntro );
-        //DontDestroyOnLoad( MenuMusicLoop );
-        //DontDestroyOnLoad( GameMusic );
     }
 
     public void UIClick() {
@@ -86,6 +74,7 @@ public class AudioManager : MonoBehaviour {
                 break;
             case SFXID.SEAGULLS:
                 if ( !Seagulls.isPlaying )
+                    Seagulls.loop = true;
                     Seagulls.Play();
                 break;
             case SFXID.ONBUTTONCLICK:

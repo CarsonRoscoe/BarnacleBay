@@ -14,6 +14,7 @@ public class CannonBall : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        AudioManager.instance.playSound( AudioManager.SFXID.CANNONFIRE );
         var smoke = Instantiate( CannonBallFiredSmoke, Owner.transform );
 		if (Direction == Direction.Left && location == Location.Front) {
 			smoke.transform.position = Owner.GetComponent<shipController> ().LFsmoke.transform.position;

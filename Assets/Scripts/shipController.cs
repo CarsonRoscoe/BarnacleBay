@@ -154,7 +154,8 @@ public class shipController : MonoBehaviour {
           //  AudioManager.instance.playSound( AudioManager.SFXID.CANNONIMPACT );
             var cannonBall = collision.gameObject.GetComponent<CannonBall>();
 			Health--;
-			Instantiate (explosion, this.transform.position, Quaternion.identity); 
+			Instantiate (explosion, this.transform.position, Quaternion.identity);
+            Destroy( collision.gameObject );
         }
     }
 

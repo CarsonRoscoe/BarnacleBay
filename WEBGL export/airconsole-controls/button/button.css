@@ -20,6 +20,17 @@
     background-position: 50% 50%;
 }
 
+.button-300-300-triangle {
+    background-image: url('button-300-triangle.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+.button-300-300-triangle.button-active {
+    background-image: url('button-300-triangle-active.png');
+}
+
 .button-300-300.button-active {
     background-image: url('button-300-300-active.png');
 }

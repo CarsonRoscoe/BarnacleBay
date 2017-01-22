@@ -149,6 +149,7 @@ public class shipController : MonoBehaviour {
 
     void OnCollisionEnter( Collision collision ) {
         if (collision.collider.tag == "CannonBall") {
+            AudioManager.instance.playSound( AudioManager.SFXID.CANNONIMPACT );
             var cannonBall = collision.gameObject.GetComponent<CannonBall>();
 			print ("hit");
 			Health--;

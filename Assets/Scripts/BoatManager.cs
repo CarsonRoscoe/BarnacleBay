@@ -19,8 +19,10 @@ public class BoatManager : MonoBehaviour {
         foreach(var deviceID in AirConsole.instance.GetActivePlayerDeviceIds) {
             var playerID = AirConsole.instance.ConvertDeviceIdToPlayerNumber( deviceID );
             var ship = Instantiate( Ship );
-            if (ShipMaterials.Length > 0) {
-                ship.GetComponent<Renderer>().material = ShipMaterials[playerID];
+            if ( ShipMaterials.Length > 0 ) {
+                foreach(var render in ship.GetComponentsInChildren<Renderer>() ) {
+                    render.material = ShipMaterials[playerID];
+                }
             }
             ship.position = startPos;
             PlayersBoats.Add( playerID, ship.GetComponent<BoatAnimation>() );

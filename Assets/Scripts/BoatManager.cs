@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class BoatManager : MonoBehaviour {
-    public Transform Ship;
+    public Transform[] Ship;
     Dictionary<int, BoatAnimation> PlayersBoats = new Dictionary<int, BoatAnimation>();
     Dictionary<int, TeamSelection> PlayersSelection = new Dictionary<int, TeamSelection>();
     public Button StartButton;
@@ -16,7 +16,7 @@ public class BoatManager : MonoBehaviour {
         var startPos = new Vector3( 1.5f, 0, 25 );
         foreach(var deviceID in AirConsole.instance.GetActivePlayerDeviceIds) {
             var playerID = AirConsole.instance.ConvertDeviceIdToPlayerNumber( deviceID );
-            var ship = Instantiate( Ship );
+            var ship = Instantiate( Ship[playerID] );
             ship.position = startPos;
             PlayersBoats.Add( playerID, ship.GetComponent<BoatAnimation>() );
             startPos = startPos.WithZ( startPos.z + 9f );

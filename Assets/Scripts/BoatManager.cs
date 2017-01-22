@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class BoatManager : MonoBehaviour {
     public Transform[] Ship;
+
     Dictionary<int, BoatAnimation> PlayersBoats = new Dictionary<int, BoatAnimation>();
     Dictionary<int, TeamSelection> PlayersSelection = new Dictionary<int, TeamSelection>();
     public Button StartButton;

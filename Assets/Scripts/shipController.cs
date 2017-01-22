@@ -22,6 +22,7 @@ public class shipController : MonoBehaviour {
 	private int _health;
 	public CannonBall cb;
 	public CannonBall cb2;
+	public Animator testing;
 	public int Health { 
 		get { 
 			return _health; 
@@ -38,6 +39,7 @@ public class shipController : MonoBehaviour {
 		rb = GetComponent<Rigidbody> ();
 		anim = this.GetComponent<Animation> ();
 		Health = 5;
+		//testing.Play ("Boyancy");
 	}
 
 	public void rotateTowards(float x, float y){
@@ -78,12 +80,12 @@ public class shipController : MonoBehaviour {
 	}
 
 	public void moveShip(){
-		anim.Play ("Boyancy");
 		rb.velocity = -transform.forward * speed;
 	}
 
 	public void fireLeft(){
-		//anim.Play("CannonToLeft");
+		
+	//	testing.Play ("FireOne");
 		if (cb == null) {
 			cb = Instantiate (CannonBall, LB.transform.position, Quaternion.identity).GetComponent<CannonBall> ();
 			cb.Direction = Direction.Left;
@@ -102,8 +104,8 @@ public class shipController : MonoBehaviour {
 	}
 
 	public void fireRight(){
-		//anim ["CannonToLeft"].speed = -1;
-		//anim.Play ("CannonToLeft");
+	//	testing.Play ("FireTwo");
+
 		if (cb == null) {
 			cb = Instantiate (CannonBall, RF.transform.position, Quaternion.identity).GetComponent<CannonBall> ();
 			cb.Direction = Direction.Right;
@@ -149,8 +151,8 @@ public class shipController : MonoBehaviour {
 
     void OnCollisionEnter( Collision collision ) {
         if (collision.collider.tag == "CannonBall") {
+          //  AudioManager.instance.playSound( AudioManager.SFXID.CANNONIMPACT );
             var cannonBall = collision.gameObject.GetComponent<CannonBall>();
-			print ("hit");
 			Health--;
 			Instantiate (explosion, this.transform.position, Quaternion.identity); 
         }

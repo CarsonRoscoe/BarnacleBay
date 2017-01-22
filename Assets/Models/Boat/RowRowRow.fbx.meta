@@ -1,0 +1,416 @@
+fileFormatVersion: 2
+guid: 0ad752b22c8ef004093ce3a904bb156a
+timeCreated: 1485093649
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Boat1
+    100002: polySurface1
+    100004: polySurface1 1
+    100006: polySurface2
+    100008: polySurface3
+    100010: polySurface4
+    100012: polySurface5
+    100014: polySurface6
+    100016: polySurface7
+    100018: polySurface8
+    100020: polySurface9
+    100022: //RootNode
+    100024: transform1
+    100026: transform10
+    100028: transform2
+    100030: transform3
+    100032: transform4
+    100034: transform5
+    100036: transform6
+    100038: transform7
+    100040: transform8
+    100042: transform9
+    400000: Boat1
+    400002: polySurface1
+    400004: polySurface1 1
+    400006: polySurface2
+    400008: polySurface3
+    400010: polySurface4
+    400012: polySurface5
+    400014: polySurface6
+    400016: polySurface7
+    400018: polySurface8
+    400020: polySurface9
+    400022: //RootNode
+    400024: transform1
+    400026: transform10
+    400028: transform2
+    400030: transform3
+    400032: transform4
+    400034: transform5
+    400036: transform6
+    400038: transform7
+    400040: transform8
+    400042: transform9
+    2300000: polySurface1
+    3300000: polySurface1
+    4300000: polySurface1
+    7400000: Boyancy
+    7400002: FireOne
+    7400004: FireTwo
+    7400006: Death
+    9500000: //RootNode
+    11100000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: Boat1
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Boyancy
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 50
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Boat1
+        weight: 1
+      - path: Boat1/polySurface1 1
+        weight: 1
+      - path: Boat1/polySurface1 1/transform10
+        weight: 1
+      - path: Boat1/polySurface2
+        weight: 1
+      - path: Boat1/polySurface2/transform9
+        weight: 1
+      - path: Boat1/polySurface3
+        weight: 1
+      - path: Boat1/polySurface3/transform8
+        weight: 1
+      - path: Boat1/polySurface4
+        weight: 1
+      - path: Boat1/polySurface4/transform7
+        weight: 1
+      - path: Boat1/polySurface5
+        weight: 1
+      - path: Boat1/polySurface5/transform6
+        weight: 1
+      - path: Boat1/polySurface6
+        weight: 1
+      - path: Boat1/polySurface6/transform5
+        weight: 1
+      - path: Boat1/polySurface7
+        weight: 1
+      - path: Boat1/polySurface7/transform4
+        weight: 1
+      - path: Boat1/polySurface8
+        weight: 1
+      - path: Boat1/polySurface8/transform3
+        weight: 1
+      - path: Boat1/polySurface9
+        weight: 1
+      - path: Boat1/polySurface9/transform2
+        weight: 1
+      - path: Boat1/transform1
+        weight: 1
+      - path: polySurface1
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: FireOne
+      takeName: Take 001
+      firstFrame: 60
+      lastFrame: 70
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Boat1
+        weight: 1
+      - path: Boat1/polySurface1 1
+        weight: 1
+      - path: Boat1/polySurface1 1/transform10
+        weight: 1
+      - path: Boat1/polySurface2
+        weight: 1
+      - path: Boat1/polySurface2/transform9
+        weight: 1
+      - path: Boat1/polySurface3
+        weight: 1
+      - path: Boat1/polySurface3/transform8
+        weight: 1
+      - path: Boat1/polySurface4
+        weight: 1
+      - path: Boat1/polySurface4/transform7
+        weight: 1
+      - path: Boat1/polySurface5
+        weight: 1
+      - path: Boat1/polySurface5/transform6
+        weight: 1
+      - path: Boat1/polySurface6
+        weight: 1
+      - path: Boat1/polySurface6/transform5
+        weight: 1
+      - path: Boat1/polySurface7
+        weight: 1
+      - path: Boat1/polySurface7/transform4
+        weight: 1
+      - path: Boat1/polySurface8
+        weight: 1
+      - path: Boat1/polySurface8/transform3
+        weight: 1
+      - path: Boat1/polySurface9
+        weight: 1
+      - path: Boat1/polySurface9/transform2
+        weight: 1
+      - path: Boat1/transform1
+        weight: 1
+      - path: polySurface1
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: FireTwo
+      takeName: Take 001
+      firstFrame: 75
+      lastFrame: 85
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Boat1
+        weight: 1
+      - path: Boat1/polySurface1 1
+        weight: 1
+      - path: Boat1/polySurface1 1/transform10
+        weight: 1
+      - path: Boat1/polySurface2
+        weight: 1
+      - path: Boat1/polySurface2/transform9
+        weight: 1
+      - path: Boat1/polySurface3
+        weight: 1
+      - path: Boat1/polySurface3/transform8
+        weight: 1
+      - path: Boat1/polySurface4
+        weight: 1
+      - path: Boat1/polySurface4/transform7
+        weight: 1
+      - path: Boat1/polySurface5
+        weight: 1
+      - path: Boat1/polySurface5/transform6
+        weight: 1
+      - path: Boat1/polySurface6
+        weight: 1
+      - path: Boat1/polySurface6/transform5
+        weight: 1
+      - path: Boat1/polySurface7
+        weight: 1
+      - path: Boat1/polySurface7/transform4
+        weight: 1
+      - path: Boat1/polySurface8
+        weight: 1
+      - path: Boat1/polySurface8/transform3
+        weight: 1
+      - path: Boat1/polySurface9
+        weight: 1
+      - path: Boat1/polySurface9/transform2
+        weight: 1
+      - path: Boat1/transform1
+        weight: 1
+      - path: polySurface1
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Death
+      takeName: Take 001
+      firstFrame: 95
+      lastFrame: 180
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Boat1
+        weight: 1
+      - path: Boat1/polySurface1 1
+        weight: 1
+      - path: Boat1/polySurface1 1/transform10
+        weight: 1
+      - path: Boat1/polySurface2
+        weight: 1
+      - path: Boat1/polySurface2/transform9
+        weight: 1
+      - path: Boat1/polySurface3
+        weight: 1
+      - path: Boat1/polySurface3/transform8
+        weight: 1
+      - path: Boat1/polySurface4
+        weight: 1
+      - path: Boat1/polySurface4/transform7
+        weight: 1
+      - path: Boat1/polySurface5
+        weight: 1
+      - path: Boat1/polySurface5/transform6
+        weight: 1
+      - path: Boat1/polySurface6
+        weight: 1
+      - path: Boat1/polySurface6/transform5
+        weight: 1
+      - path: Boat1/polySurface7
+        weight: 1
+      - path: Boat1/polySurface7/transform4
+        weight: 1
+      - path: Boat1/polySurface8
+        weight: 1
+      - path: Boat1/polySurface8/transform3
+        weight: 1
+      - path: Boat1/polySurface9
+        weight: 1
+      - path: Boat1/polySurface9/transform2
+        weight: 1
+      - path: Boat1/transform1
+        weight: 1
+      - path: polySurface1
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

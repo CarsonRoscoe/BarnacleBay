@@ -41,10 +41,10 @@ public class cameraController : MonoBehaviour {
 				smallZ = valuesTransform [i].position.z;
 		}
 			
-		smallX -= 60 + (largeX - smallX)/2;
-		smallZ -= 180 + (largeZ - smallZ)/2;
-		largeX += 60 + (largeX - smallX)/2;
-		largeZ += 60 + (largeZ - smallZ)/2;
+		smallX -= 40 + (largeX - smallX)/2;
+		smallZ -= 140 + (largeZ - smallZ)/2;
+		largeX += 40 + (largeX - smallX)/2;
+		largeZ += 40 + (largeZ - smallZ)/2;
 
 		Vector3 temp = this.transform.position;
 		temp.x = ((largeX - smallX) / 2) + smallX + offsetX;

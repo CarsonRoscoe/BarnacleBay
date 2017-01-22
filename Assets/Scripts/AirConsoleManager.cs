@@ -49,8 +49,10 @@ public class AirConsoleManager : MonoBehaviour {
                                 var horizontal = (float)joystickleft["message"]["x"];
                                 var vertical = (float)joystickleft["message"]["y"];
                                 playerController.rotateTowards( horizontal, vertical );
-                            }
-                        }
+							} else{
+								playerController.rotateTowards(0,0);
+                        	}
+						}
 
                         //Right side
                         var dpad = data["dpad-right"];

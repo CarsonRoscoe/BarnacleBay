@@ -44,16 +44,16 @@ public class AudioManager : MonoBehaviour {
     }
 
     public void Start() {
-        DontDestroyOnLoad( CannonFire );
-        DontDestroyOnLoad( CannonImpact );
-        DontDestroyOnLoad( RockCollision );
-        DontDestroyOnLoad( Sinking );
-        DontDestroyOnLoad( Waves );
-        DontDestroyOnLoad( Seagulls );
-        DontDestroyOnLoad( OnButtonClick );
-        DontDestroyOnLoad( MenuMusicIntro );
-        DontDestroyOnLoad( MenuMusicLoop );
-        DontDestroyOnLoad( GameMusic );
+        //DontDestroyOnLoad( CannonFire );
+        //DontDestroyOnLoad( CannonImpact );
+        //DontDestroyOnLoad( RockCollision );
+        //DontDestroyOnLoad( Sinking );
+        //DontDestroyOnLoad( Waves );
+        //DontDestroyOnLoad( Seagulls );
+        //DontDestroyOnLoad( OnButtonClick );
+        //DontDestroyOnLoad( MenuMusicIntro );
+        //DontDestroyOnLoad( MenuMusicLoop );
+        //DontDestroyOnLoad( GameMusic );
     }
 
     public void UIClick() {

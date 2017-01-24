@@ -40,6 +40,8 @@ public class shipController : MonoBehaviour {
 		rb = GetComponent<Rigidbody> ();
 		anim = this.GetComponent<Animation> ();
 		Health = 5;
+        //testing.StopPlayback();
+        //testing.Play( "Death" );
 		//testing.Play ("Boyancy");
 	}
 

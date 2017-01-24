@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class shipController : MonoBehaviour {
@@ -176,7 +177,7 @@ public class shipController : MonoBehaviour {
           //  AudioManager.instance.playSound( AudioManager.SFXID.CANNONIMPACT );
             var cannonBall = collision.gameObject.GetComponent<CannonBall>();
 			Health--;
-			Instantiate (explosion, this.transform.position, Quaternion.identity);
+			Instantiate (explosion, collision.contacts.First().point, Quaternion.identity);
             Destroy( collision.gameObject );
         }
     }
@@ -185,6 +186,7 @@ public class shipController : MonoBehaviour {
         GameDataManager.instance.RemovePlayer( PlayerID );
         //Play death animation instead of just killing
         Instantiate( explosion, this.transform.position, Quaternion.identity );
+        Camera.main.GetComponent<cameraController>().endGame();
         Destroy( gameObject );
         Camera.main.GetComponent<cameraController>().updateValues();
     }

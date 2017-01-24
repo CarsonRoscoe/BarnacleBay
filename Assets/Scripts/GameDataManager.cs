@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine.SceneManagement;
 
 public enum GameState { Menu, InGame }
 
@@ -53,12 +54,15 @@ public class GameDataManager : MonoBehaviour {
         if (oneIsAlive && !twoIsAlive) {
             print( "Team One WON" );
 			Camera.main.GetComponent<cameraController> ().endGame ();
+			StartCoroutine (ReturnToMenu ());
         } else if (!oneIsAlive && twoIsAlive) {
-            print( "Team Two WON" );
+			print( "Team Two WON" );
 			Camera.main.GetComponent<cameraController> ().endGame ();
+			StartCoroutine (ReturnToMenu ());
         } else if (!oneIsAlive && !twoIsAlive && PlayersTeam.Keys.Count == 1) {
             print( "Player someone WON" );
 			Camera.main.GetComponent<cameraController> ().endGame ();
+			StartCoroutine (ReturnToMenu ());
         }
     }
 
@@ -84,4 +88,9 @@ public class GameDataManager : MonoBehaviour {
     public TeamSelection GetTeamSelection(int playerID) {
         return PlayersTeam[playerID];
     }
+
+	IEnumerator ReturnToMenu() {
+		yield return new WaitForSeconds (5f);
+		SceneManager.LoadScene ("MainMenu");
+	}
 }

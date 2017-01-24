@@ -44,13 +44,10 @@ public class shipController : MonoBehaviour {
 
 	public void rotateTowards(float x, float y){
 		//find angle from air console return point
-		if(x == 0 && y == 0){
-			targetAngle = -1;
-		}
 
 		//airconsole is stupid
 		x = -x;
-
+		/*
 		if (x >= 0 && y >= 0) {
 			targetAngle = Mathf.Asin (x / (Mathf.Sqrt (x * x + y * y)));
 			targetAngle *= toDegrees;
@@ -66,18 +63,30 @@ public class shipController : MonoBehaviour {
 			targetAngle = Mathf.Asin (y / (Mathf.Sqrt (x * x + y * y)));
 			targetAngle *= toDegrees;
 			targetAngle += 270;
+		}*/
+
+		if (x >= 0 && y >= 0) {
+			targetAngle = 1;
+		} else if (x >= 0 && y <= 0) {
+			targetAngle = 1;
+		} else if (x <= 0 && y <= 0) {
+			targetAngle = 0;
+		} else if (x <= 0 && y >= 0) {
+			targetAngle = 0;
 		}
 
-
+		if(x == 0 && y == 0){
+			targetAngle = -1;
+		}
 
 	}
 
 	void rotateLeft(){
-		this.transform.Rotate (new Vector3 (0, -1, 0));
+		this.transform.Rotate (new Vector3 (0, -1.5f, 0));
 	}
 
 	void rotateRight(){
-		this.transform.Rotate (new Vector3 (0, 1, 0));
+		this.transform.Rotate (new Vector3 (0, 1.5f, 0));
 	}
 
 	public void moveShip(){
@@ -137,6 +146,7 @@ public class shipController : MonoBehaviour {
 	void Update(){
 		//find shortest rotation to the angle and keep rotating till user stops touching joystick
 		moveShip();
+		/*
 		if (targetAngle != -1) {
 			if(this.transform.rotation.eulerAngles.y < targetAngle) {
 				if(Mathf.Abs(this.transform.rotation.eulerAngles.y - targetAngle)<180)
@@ -146,6 +156,14 @@ public class shipController : MonoBehaviour {
 				if (Mathf.Abs (this.transform.rotation.eulerAngles.y - targetAngle) < 180)
 					rotateLeft ();
 				else rotateRight();
+			}
+		}*/
+
+		if (targetAngle != -1) {
+			if (targetAngle == 1) {
+				rotateLeft ();
+			} else if (targetAngle == 0) {
+				rotateRight ();
 			}
 		}
 	}

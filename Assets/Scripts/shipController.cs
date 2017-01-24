@@ -47,34 +47,34 @@ public class shipController : MonoBehaviour {
 
 		//airconsole is stupid
 		x = -x;
-		/*
-		if (x >= 0 && y >= 0) {
-			targetAngle = Mathf.Asin (x / (Mathf.Sqrt (x * x + y * y)));
-			targetAngle *= toDegrees;
-		} else if (x >= 0 && y <= 0) {
-			targetAngle = Mathf.Asin (y / (Mathf.Sqrt (x * x + y * y)));
-			targetAngle *= toDegrees;
-			targetAngle = Mathf.Abs(targetAngle) + 90;
-		} else if (x <= 0 && y <= 0) {
-			targetAngle = Mathf.Asin (x / (Mathf.Sqrt (x * x + y * y)));
-			targetAngle *= toDegrees;
-			targetAngle = Mathf.Abs(targetAngle) + 180;
-		} else if (x <= 0 && y >= 0) {
-			targetAngle = Mathf.Asin (y / (Mathf.Sqrt (x * x + y * y)));
-			targetAngle *= toDegrees;
-			targetAngle += 270;
-		}*/
-
-		if (x >= 0 && y >= 0) {
-			targetAngle = 1;
-		} else if (x >= 0 && y <= 0) {
-			targetAngle = 1;
-		} else if (x <= 0 && y <= 0) {
-			targetAngle = 0;
-		} else if (x <= 0 && y >= 0) {
-			targetAngle = 0;
+		if (!AirConsoleManager.instance.newControls) {
+			if (x >= 0 && y >= 0) {
+				targetAngle = Mathf.Asin (x / (Mathf.Sqrt (x * x + y * y)));
+				targetAngle *= toDegrees;
+			} else if (x >= 0 && y <= 0) {
+				targetAngle = Mathf.Asin (y / (Mathf.Sqrt (x * x + y * y)));
+				targetAngle *= toDegrees;
+				targetAngle = Mathf.Abs (targetAngle) + 90;
+			} else if (x <= 0 && y <= 0) {
+				targetAngle = Mathf.Asin (x / (Mathf.Sqrt (x * x + y * y)));
+				targetAngle *= toDegrees;
+				targetAngle = Mathf.Abs (targetAngle) + 180;
+			} else if (x <= 0 && y >= 0) {
+				targetAngle = Mathf.Asin (y / (Mathf.Sqrt (x * x + y * y)));
+				targetAngle *= toDegrees;
+				targetAngle += 270;
+			}
+		} else {
+			if (x >= 0 && y >= 0) {
+				targetAngle = 1;
+			} else if (x >= 0 && y <= 0) {
+				targetAngle = 1;
+			} else if (x <= 0 && y <= 0) {
+				targetAngle = 0;
+			} else if (x <= 0 && y >= 0) {
+				targetAngle = 0;
+			}
 		}
-
 		if(x == 0 && y == 0){
 			targetAngle = -1;
 		}
@@ -146,24 +146,27 @@ public class shipController : MonoBehaviour {
 	void Update(){
 		//find shortest rotation to the angle and keep rotating till user stops touching joystick
 		moveShip();
-		/*
-		if (targetAngle != -1) {
-			if(this.transform.rotation.eulerAngles.y < targetAngle) {
-				if(Mathf.Abs(this.transform.rotation.eulerAngles.y - targetAngle)<180)
-					rotateRight();
-				else rotateLeft();
-			}  else if (this.transform.rotation.eulerAngles.y > targetAngle){
-				if (Mathf.Abs (this.transform.rotation.eulerAngles.y - targetAngle) < 180)
-					rotateLeft ();
-				else rotateRight();
+		if (!AirConsoleManager.instance.newControls) {
+			if (targetAngle != -1) {
+				if (this.transform.rotation.eulerAngles.y < targetAngle) {
+					if (Mathf.Abs (this.transform.rotation.eulerAngles.y - targetAngle) < 180)
+						rotateRight ();
+					else
+						rotateLeft ();
+				} else if (this.transform.rotation.eulerAngles.y > targetAngle) {
+					if (Mathf.Abs (this.transform.rotation.eulerAngles.y - targetAngle) < 180)
+						rotateLeft ();
+					else
+						rotateRight ();
+				}
 			}
-		}*/
-
-		if (targetAngle != -1) {
-			if (targetAngle == 1) {
-				rotateLeft ();
-			} else if (targetAngle == 0) {
-				rotateRight ();
+		} else {
+			if (targetAngle != -1) {
+				if (targetAngle == 1) {
+					rotateLeft ();
+				} else if (targetAngle == 0) {
+					rotateRight ();
+				}
 			}
 		}
 	}

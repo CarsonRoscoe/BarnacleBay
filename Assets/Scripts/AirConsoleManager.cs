@@ -10,6 +10,7 @@ public class AirConsoleManager : MonoBehaviour {
     public static AirConsoleManager instance;
     private string oldDpadDir;
     public List<PlayerData> players;
+	public bool newControls;
 
     void Awake() {
         if (instance == null)
@@ -19,6 +20,7 @@ public class AirConsoleManager : MonoBehaviour {
         AirConsole.instance.onConnect += OnConnect;
         AirConsole.instance.onMessage += OnMessage;
         AirConsole.instance.onDisconnect += OnDisconnect;
+
     }
 
     void Start() {
@@ -149,24 +151,36 @@ public class AirConsoleManager : MonoBehaviour {
                         }
                     }
                 }
-                var dpadright = data["dpad-right"];
-                if ( dpadright != null ) {
-                    var message = dpadright["message"];
-                    if ( message != null ) {
-                        var dPadDirection = (string)message["direction"];
-                        if ( oldDpadDir != dPadDirection ) {
-                            oldDpadDir = dPadDirection;
-                            var splashMenuManager = GameObject.Find("BoatManager");
-                            if ( splashMenuManager != null ) {
-                                var manager = splashMenuManager.GetComponent<BoatManager>();
-                                manager.PlayerSwitchedSelection( playerID, dPadDirection == "left" ? -1 : 1 );
-                            }
-                        }
-                        else {
-                            oldDpadDir = "";
-                        }
-                    }
-                }
+				
+				var dpadmenu = data["dpad-right"];
+				if (dpadmenu != null ) {
+					var message = dpadmenu["message"];
+					if (message != null ) {
+						var dPadDirection = (string)message["direction"];
+						if ( oldDpadDir != dPadDirection ) {
+							oldDpadDir = dPadDirection;
+							switch ( dPadDirection ) {
+							case "left":
+							case "right":
+								var splashMenuManager = GameObject.Find("BoatManager");
+								if ( splashMenuManager != null ) {
+									var manager = splashMenuManager.GetComponent<BoatManager>();
+									manager.PlayerSwitchedSelection( playerID, dPadDirection == "left" ? -1 : 1 );
+								}
+								break;
+							case "up":
+								newControls = false;
+								break;
+							case "down":
+								newControls = true;
+								break;
+							}
+						}
+						else {
+							oldDpadDir = "";
+						}
+					}
+				}
 
                 if ( AirConsole.instance.GetMasterControllerDeviceId() == controllerID ) {
 

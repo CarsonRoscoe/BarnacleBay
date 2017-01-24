@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerData {
-    public enum PlayerColors { PURPLE, ORANGE, BLUE, RED, GREEN, YELLOW, WHITE, BLACK};
+    public enum PlayerColors { GREEN, PURPLE, ORANGE, BLUE, RED, YELLOW, WHITE, BLACK};
 
     public int playerID;
     public string name;

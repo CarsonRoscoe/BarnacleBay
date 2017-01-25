@@ -91,6 +91,7 @@ public class GameDataManager : MonoBehaviour {
 
 	IEnumerator ReturnToMenu() {
 		yield return new WaitForSeconds (5f);
+        SetGameState( GameState.Menu );
 		SceneManager.LoadScene ("MenuScene");
 	}
 }

@@ -9,7 +9,10 @@ public class shipController : MonoBehaviour {
     public int PlayerID;
 	public float targetAngle = -1; 
 	public Rigidbody rb;
-	public float speed = 10;
+	public float speed = 30;
+    public float maxspeed = 40;
+    public float minspeed = 20;
+    public float turnRate = 3f;
 	public Transform CannonBall;
 	public Transform explosion;
 	public Animation anim;
@@ -83,11 +86,11 @@ public class shipController : MonoBehaviour {
 	}
 
 	void rotateLeft(){
-		this.transform.Rotate (new Vector3 (0, -1.5f, 0));
+		this.transform.Rotate (new Vector3 (0, -turnRate, 0));
 	}
 
 	void rotateRight(){
-		this.transform.Rotate (new Vector3 (0, 1.5f, 0));
+		this.transform.Rotate (new Vector3 (0, turnRate, 0));
 	}
 
 	public void moveShip(){
@@ -135,14 +138,16 @@ public class shipController : MonoBehaviour {
 	}
 
 	public void boost(){
-		if (speed < 28)
-			speed *= 1.2f;
+        speed += 5;
+        if ( speed > maxspeed )
+            speed = maxspeed;
 	}
 
-	public void brake(){
-		if (speed > 14)
-		speed *= 0.83f;
-	}
+	public void brake() {
+        speed -= 5;
+        if ( speed < minspeed )
+            speed = minspeed;
+    }
 
 	void Update(){
 		//find shortest rotation to the angle and keep rotating till user stops touching joystick
@@ -179,10 +184,29 @@ public class shipController : MonoBehaviour {
 			Health--;
 			Instantiate (explosion, collision.contacts.First().point, Quaternion.identity);
             Destroy( collision.gameObject );
+            
+        } else if (collision.collider.tag == "Wall") {
+            var collidedPoint = collision.contacts.First().point;
+            Vector3 heading = collidedPoint - transform.position;
+            var dirNum = AngleDir( transform.forward, heading, transform.up );
+            //print( dirNum );
+            //if (dirNum > 0) {
+            //    rotateLeft();
+            //    rotateLeft();
+            //} else {
+            //    rotateRight();
+            //    rotateRight();
+            //}
         }
     }
 
-	void Die() {
+    float AngleDir( Vector3 fwd, Vector3 targetDir, Vector3 up ) {
+        Vector3 perp = Vector3.Cross( fwd, targetDir );
+        float dir = Vector3.Dot( perp, up );
+        return dir;
+    }
+
+    void Die() {
         GameDataManager.instance.RemovePlayer( PlayerID );
 	testing.SetBool ("isDead", true);
 	speed = 0;

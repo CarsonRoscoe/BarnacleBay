@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Experimental.Director;
 
 public class shipController : MonoBehaviour {
 	private const float toDegrees = 57.2958f;
@@ -40,9 +41,6 @@ public class shipController : MonoBehaviour {
 		rb = GetComponent<Rigidbody> ();
 		anim = this.GetComponent<Animation> ();
 		Health = 5;
-        //testing.StopPlayback();
-        //testing.Play( "Death" );
-		//testing.Play ("Boyancy");
 	}
 
 	public void rotateTowards(float x, float y){
@@ -186,10 +184,11 @@ public class shipController : MonoBehaviour {
 
 	void Die() {
         GameDataManager.instance.RemovePlayer( PlayerID );
-        //Play death animation instead of just killing
+	testing.SetBool ("isDead", true);
+	speed = 0;
         Instantiate( explosion, this.transform.position, Quaternion.identity );
         Camera.main.GetComponent<cameraController>().endGame();
-        Destroy( gameObject );
+        Destroy(gameObject, 6f);
         Camera.main.GetComponent<cameraController>().updateValues();
     }
 }

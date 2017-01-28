@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum Direction { Left, Right }
@@ -7,12 +8,14 @@ public enum Location { Front, Back }
 
 public class CannonBall : MonoBehaviour {
     public Transform CannonBallFiredSmoke;
+    public Transform Explosion;
     public GameObject Owner;
     public Direction Direction = Direction.Left;
 	public Location location = Location.Front;
     public int Power = 5;
     private float timePassed = 0f;
     public const float deathTime = 8f; //destroy after 5 seconds.
+
 
 	// Use this for initialization
 	void Start () {
@@ -41,4 +44,18 @@ public class CannonBall : MonoBehaviour {
             Destroy( gameObject );
         }
 	}
+
+    void OnCollisionEnter( Collision collision ) {
+        if ( collision.collider.tag == "Wall" ) {
+            var collidedPoint = collision.contacts.First().point;
+            Instantiate( Explosion, collidedPoint, Quaternion.identity );
+            Destroy( this );
+        }
+    }
+
+    public void SetColor( Color color ) {
+        GetComponent<Renderer>().material.color = color;
+        GetComponent<Renderer>().material.SetColor("_Color", color);
+        GetComponent<TrailRenderer>().material.SetColor( "_TintColor", color );
+    }
 }

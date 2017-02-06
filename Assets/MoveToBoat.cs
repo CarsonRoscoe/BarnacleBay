@@ -75,6 +75,7 @@ public class MoveToBoat : MonoBehaviour {
     IEnumerator BurnPaperThenStart(float seconds) {
         var currentTime = 0f;
         var material = Paper.GetComponent<Image>().material;
+		BoatManager.instance.SetActiveBoatSprites (false);
         while(currentTime < seconds ) {
             material.SetFloat( "_Threshold", currentTime / seconds );
             yield return null;

@@ -52,9 +52,7 @@ public class BoatManager : MonoBehaviour {
 	public void UpdateBoatPositions() {
 		var slot = 0;
 		var deviceIDs = AirConsole.instance.GetActivePlayerDeviceIds;
-		foreach (var boat in Ships) {
-			boat.gameObject.SetActive (false);
-		}
+		SetActiveBoatSprites (false);
 		var playerCount = AirConsole.instance.GetActivePlayerDeviceIds.Count;
 		var topHeight = top.anchoredPosition.y;
 		var bottomHeight = bottom.anchoredPosition.y;
@@ -126,4 +124,11 @@ public class BoatManager : MonoBehaviour {
         GameDataManager.instance.ReadyPlayers(PlayersSelection);
         SceneManager.LoadScene( "Enviroment_Final" );
     }
+
+	public void SetActiveBoatSprites(bool isActive) {
+		foreach (var ship in Ships) {
+			ship.gameObject.SetActive (isActive);
+		}
+	}
+
 }

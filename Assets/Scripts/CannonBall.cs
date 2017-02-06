@@ -49,7 +49,7 @@ public class CannonBall : MonoBehaviour {
         if ( collision.collider.tag == "Wall" ) {
             var collidedPoint = collision.contacts.First().point;
             Instantiate( Explosion, collidedPoint, Quaternion.identity );
-            Destroy( this );
+			Destroy( gameObject );
         }
     }
 

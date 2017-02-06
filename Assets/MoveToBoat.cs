@@ -18,7 +18,8 @@ public class MoveToBoat : MonoBehaviour {
     private Vector3 logoStartPosition;
     private Vector2 logoStartSize;
 
-    void Start() {
+	void Start() {
+		Paper.GetComponent<Image>().material.SetFloat( "_Threshold", 0.0f );
         logoRectTransform = Logo.GetComponent<RectTransform>();
         logoStartSize = logoRectTransform.sizeDelta;
         logoStartPosition = logoRectTransform.position;
@@ -68,7 +69,6 @@ public class MoveToBoat : MonoBehaviour {
     }
 
 	public void StartGame() {
-		Paper.GetComponent<Image>().material.SetFloat( "_Threshold", 0.0f );
         StartCoroutine( BurnPaperThenStart(2f) );
     }
 

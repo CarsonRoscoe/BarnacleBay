@@ -131,7 +131,6 @@ namespace NDream.AirConsole.Editor {
 		}
 
 		public static string GetLocalAddress () {
-
 			string localIP = "";
   
 			foreach (IPAddress ip in Dns.GetHostEntry(Dns.GetHostName()).AddressList) {

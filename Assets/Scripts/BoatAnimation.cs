@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum TeamSelection { One, FreeForAll, Two }
+public enum TeamSelection { One = -1, FreeForAll = 0, Two = 1 }
 
 public class BoatAnimation : MonoBehaviour {
     private TeamSelection _selectedTeam = TeamSelection.FreeForAll;

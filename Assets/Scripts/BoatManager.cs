@@ -6,38 +6,95 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class BoatManager : MonoBehaviour {
-    public Transform Ship;
-    public Material[] ShipMaterials;
+	public static BoatManager instance;
+	public int MaxPlayers = 8;
+    public Transform[] Ships;
+	public Transform Center;
+	public Transform Left;
+	public Transform Right;
+	public Transform Top;
+	public Transform Bottom;
+	private RectTransform left;
+	private RectTransform right;
+	private RectTransform top;
+	private RectTransform bottom;
+	private RectTransform center;
+	private RectTransform[] shipRects;
 
-    Dictionary<int, BoatAnimation> PlayersBoats = new Dictionary<int, BoatAnimation>();
+	void Awake() {
+		if (instance != null) {
+			Destroy (instance);
+		}
+		instance = this;
+	}
+
     Dictionary<int, TeamSelection> PlayersSelection = new Dictionary<int, TeamSelection>();
-    public Button StartButton;
 
     void Start() {
-        AirConsole.instance.SetActivePlayers(8);
-        var startPos = new Vector3( 1.5f, 0, 72.3f );
-        var slot = 0;
-        foreach(var deviceID in AirConsole.instance.GetActivePlayerDeviceIds) {
-            if (slot >= 8)
-                break;
-            var playerID = AirConsole.instance.ConvertDeviceIdToPlayerNumber( deviceID );
-            var ship = Instantiate( Ship );
-            if ( ShipMaterials.Length > 0 ) {
-                foreach(var render in ship.GetComponentsInChildren<Renderer>() ) {
-                    render.material = ShipMaterials[playerID];
-                }
-            }
-            ship.position = startPos;
-            PlayersBoats.Add( playerID, ship.GetComponent<BoatAnimation>() );
-            startPos = startPos.WithZ( startPos.z + 9f );
-            SetPlayerTeamSelection( playerID, TeamSelection.FreeForAll );
-            slot++;
-        }
+		left = Left.GetComponent<RectTransform> ();
+		right = Right.GetComponent<RectTransform> ();
+		top = Top.GetComponent<RectTransform> ();
+		bottom = Bottom.GetComponent<RectTransform> ();
+		center = Center.GetComponent<RectTransform> ();
+		shipRects = new RectTransform[Ships.Length];
+		for (int i = 0; i < Ships.Length; i++) {
+			shipRects [i] = Ships [i].GetComponent<RectTransform> ();
+			SetPlayerTeamSelection (i, TeamSelection.FreeForAll);
+		}
+		AirConsole.instance.SetActivePlayers(MaxPlayers);
     }
 
-    void Update() {
-        StartButton.interactable = CanStart();
-    }
+	void Update() {
+		UpdateBoatPositions ();
+	}
+
+	public void UpdateBoatPositions() {
+		var slot = 0;
+		var deviceIDs = AirConsole.instance.GetActivePlayerDeviceIds;
+		foreach (var boat in Ships) {
+			boat.gameObject.SetActive (false);
+		}
+		var playerCount = AirConsole.instance.GetActivePlayerDeviceIds.Count;
+		var topHeight = top.anchoredPosition.y;
+		var bottomHeight = bottom.anchoredPosition.y;
+		var height = Mathf.Abs (topHeight - bottomHeight);
+		var centerHeight = center.transform.position.y;
+		var increase = height / (MaxPlayers - 1);
+		int[] positions = new int[playerCount];
+		var actualHeight = increase * playerCount;
+
+		for (int i = 0; i < playerCount; i++) {
+			var id = AirConsole.instance.ConvertDeviceIdToPlayerNumber (i);
+			var oldPos = Ships [id].transform.position;
+			var zeroIndex = (float)playerCount / 2f;
+			if (zeroIndex % 2 == 0)
+				zeroIndex -= .5f;
+			var myRelativeIndex = i - zeroIndex;
+			var yPos = myRelativeIndex * increase;
+			var xPos = 0f;
+			var ship = Ships [id];
+			if (!PlayersSelection.ContainsKey (id)) {
+				PlayersSelection.Add(id, TeamSelection.FreeForAll);
+			}
+			switch (PlayersSelection[id]) {
+			case TeamSelection.One:
+				xPos = left.transform.position.x;
+				break;
+			case TeamSelection.FreeForAll:
+				xPos = center.transform.position.x;
+				break;
+			case TeamSelection.Two:
+				xPos = right.transform.position.x;
+				break;
+			default:
+				break;
+			}
+
+			var newPos = new Vector3 (xPos, centerHeight + yPos, oldPos.z);
+			ship.gameObject.SetActive (true);
+			shipRects[i].position = newPos;
+		}
+	}
 
     bool CanStart() {
         var IsTeam = false;
@@ -52,52 +109,16 @@ public class BoatManager : MonoBehaviour {
         return !(IsTeam && IsSolo);
     }
 
-    void SetPlayer(int playerID, BoatAnimation boatAnimation) {
-        if (!PlayersBoats.ContainsKey(playerID)) {
-            PlayersBoats.Add( playerID, boatAnimation );
-        }
-    }
+	public void SetPlayerTeamSelection(int playerID, int teamSelectionDirection) {
+		SetPlayerTeamSelection (playerID, (TeamSelection)teamSelectionDirection);
+	}
 
-    public void PlayerSwitchedSelection(int playerID, int direction) {
-        switch ( direction ) {
-            case -1:
-                switch ( PlayersSelection[playerID] ) {
-                    case TeamSelection.One:
-                        break;
-                    case TeamSelection.FreeForAll:
-                        SetPlayerTeamSelection( playerID, TeamSelection.One );
-                        break;
-                    case TeamSelection.Two:
-                        SetPlayerTeamSelection( playerID, TeamSelection.FreeForAll );
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case 1:
-                switch ( PlayersSelection[playerID] ) {
-                    case TeamSelection.One:
-                        SetPlayerTeamSelection( playerID, TeamSelection.FreeForAll );
-                        break;
-                    case TeamSelection.FreeForAll:
-                        SetPlayerTeamSelection( playerID, TeamSelection.Two );
-                        break;
-                    case TeamSelection.Two:
-                        break;
-                    default:
-                        break;
-                }
-                break;
-        }
-    }
-
-    void SetPlayerTeamSelection(int playerID, TeamSelection teamSelection) {
+    public void SetPlayerTeamSelection(int playerID, TeamSelection teamSelection) {
         if (!PlayersSelection.ContainsKey(playerID)) {
             PlayersSelection.Add( playerID, teamSelection );
         } else {
             PlayersSelection[playerID] = teamSelection;
         }
-        PlayersBoats[playerID].SetSelectedTeam( teamSelection );
     }
 
     public void StartGame() {

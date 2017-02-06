@@ -10,7 +10,6 @@ public class AirConsoleManager : MonoBehaviour {
     public static AirConsoleManager instance;
     private string oldDpadDir;
     public List<PlayerData> players;
-	public bool newControls;
 
     void Awake() {
         if (instance == null)
@@ -145,7 +144,7 @@ public class AirConsoleManager : MonoBehaviour {
                         if (splashMenuManager != null) {
                             splashMenuManager.GetComponent<SplashMenuManager>().GoToPlaySetup();
                         } else {
-                            var boatManager = GameObject.Find("BoatManager");
+							var boatManager = BoatManager.instance;
                             if (boatManager != null)
                                 boatManager.GetComponent<BoatManager>().StartGame();
                         }
@@ -162,17 +161,11 @@ public class AirConsoleManager : MonoBehaviour {
 							switch ( dPadDirection ) {
 							case "left":
 							case "right":
-								var splashMenuManager = GameObject.Find("BoatManager");
-								if ( splashMenuManager != null ) {
-									var manager = splashMenuManager.GetComponent<BoatManager>();
-									manager.PlayerSwitchedSelection( playerID, dPadDirection == "left" ? -1 : 1 );
-								}
+								//Make it have a "Team One", "Free For All" and "Team Two" menu buttons
+								BoatManager.instance.SetPlayerTeamSelection( playerID, dPadDirection == "left" ? -1 : 1 );
 								break;
 							case "up":
-								newControls = false;
-								break;
-							case "down":
-								newControls = true;
+								BoatManager.instance.SetPlayerTeamSelection( playerID, 0 );
 								break;
 							}
 						}

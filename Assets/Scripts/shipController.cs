@@ -174,7 +174,6 @@ public class shipController : MonoBehaviour {
 			var collidedPoint = collision.contacts.First().point;
 			Vector3 heading = collidedPoint - transform.position;
 			var dirNum = AngleDir( transform.forward, heading, transform.up );
-			AudioManager.instance.playSound (AudioManager.SFXID.ROCKCOLLISION);
 			//print( dirNum );
 			//if (dirNum > 0) {
 			//    rotateLeft();

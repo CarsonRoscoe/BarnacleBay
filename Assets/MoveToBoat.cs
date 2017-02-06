@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MoveToBoat : MonoBehaviour {
     public Transform NewParent;
@@ -28,9 +29,6 @@ public class MoveToBoat : MonoBehaviour {
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.W)) {
-            StartGame();
-        }
         if ( moving ) {
             if (amount < 1) {
                 amount += Time.deltaTime;
@@ -81,7 +79,11 @@ public class MoveToBoat : MonoBehaviour {
             currentTime += Time.deltaTime;
         }
         material.SetFloat( "_Threshold", 1.1f );
-        yield return new WaitForSeconds( .25f );
+		yield return new WaitForSeconds (.25f);
+		foreach (var image in Paper.GetComponentsInChildren<Image>()) {
+			image.gameObject.SetActive (false);
+		}
+		SceneManager.LoadScene( "Enviroment_Final" );
         //Go to next scene
     }
 }

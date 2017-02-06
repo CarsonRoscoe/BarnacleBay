@@ -140,14 +140,13 @@ public class AirConsoleManager : MonoBehaviour {
                     //Right side
                 if (data["Start"] != null) {
                     if (controllerID == AirConsole.instance.GetMasterControllerDeviceId()) {
-                        var splashMenuManager = GameObject.Find("SplashMenuManager");
-                        if (splashMenuManager != null) {
-                            splashMenuManager.GetComponent<SplashMenuManager>().GoToPlaySetup();
-                        } else {
-							var boatManager = BoatManager.instance;
-                            if (boatManager != null)
-                                boatManager.GetComponent<BoatManager>().StartGame();
-                        }
+						var moveBoat = Camera.main.GetComponent<MoveToBoat> ();
+						if (!BoatManager.instance.InTeamSelectMode) {
+							moveBoat.MoveToNewPosition ();
+							BoatManager.instance.InTeamSelectMode = true;
+						} else {
+							moveBoat.StartGame ();
+						}
                     }
                 }
 				

@@ -14,6 +14,7 @@ public class BoatManager : MonoBehaviour {
 	public Transform Right;
 	public Transform Top;
 	public Transform Bottom;
+	public bool InTeamSelectMode = false;
 	private RectTransform left;
 	private RectTransform right;
 	private RectTransform top;
@@ -30,7 +31,8 @@ public class BoatManager : MonoBehaviour {
 
     Dictionary<int, TeamSelection> PlayersSelection = new Dictionary<int, TeamSelection>();
 
-    void Start() {
+	void Start() {
+		AudioManager.instance.playGameMusic( AudioManager.MusicID.MENULOOP );
 		left = Left.GetComponent<RectTransform> ();
 		right = Right.GetComponent<RectTransform> ();
 		top = Top.GetComponent<RectTransform> ();

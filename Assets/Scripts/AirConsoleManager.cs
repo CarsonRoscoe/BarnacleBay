@@ -140,7 +140,7 @@ public class AirConsoleManager : MonoBehaviour {
                     //Right side
                 if (data["Start"] != null) {
                     if (controllerID == AirConsole.instance.GetMasterControllerDeviceId()) {
-						var moveBoat = Camera.main.GetComponent<MoveToBoat> ();
+					var moveBoat = GameObject.Find( "Main Camera" ).GetComponent<MoveToBoat> ();
 						if (!BoatManager.instance.InTeamSelectMode) {
 							moveBoat.MoveToNewPosition ();
 							BoatManager.instance.InTeamSelectMode = true;

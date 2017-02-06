@@ -101,7 +101,7 @@ public class AudioManager : MonoBehaviour {
                 if ( !MenuMusicIntro.isPlaying )
                     stopAllMusic();
                 MenuMusicLoop.loop = true;
-                MenuMusicIntro.Play();
+                MenuMusicLoop.Play();
                 break;
             case MusicID.GAME:
                 if ( !GameMusic.isPlaying )

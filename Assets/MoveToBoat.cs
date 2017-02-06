@@ -55,7 +55,6 @@ public class MoveToBoat : MonoBehaviour {
     public void MoveToNewPosition() {
 		if (canMove) {
 			AudioManager.instance.playSound (AudioManager.SFXID.ONBUTTONCLICK);
-			BoatManager.instance.Init ();
             foreach(var UI in DisabledUI) {
                 UI.SetActive( false );
             }

@@ -39,15 +39,11 @@ public class BoatManager : MonoBehaviour {
 		bottom = Bottom.GetComponent<RectTransform> ();
 		center = Center.GetComponent<RectTransform> ();
 		shipRects = new RectTransform[Ships.Length];
-    }
-
-	public void Init() {
 		for (int i = 0; i < Ships.Length; i++) {
 			shipRects [i] = Ships [i].GetComponent<RectTransform> ();
 			SetPlayerTeamSelection (i, TeamSelection.FreeForAll);
 		}
-		AirConsole.instance.SetActivePlayers(MaxPlayers);
-	}
+    }
 
 	void Update() {
 		UpdateBoatPositions ();
@@ -68,20 +64,20 @@ public class BoatManager : MonoBehaviour {
 		int[] positions = new int[playerCount];
 		var actualHeight = increase * playerCount;
 
-		for (int i = 0; i < playerCount; i++) {
-			var id = AirConsole.instance.ConvertDeviceIdToPlayerNumber (i);
-			var oldPos = Ships [id].transform.position;
+		foreach (var controllerID in AirConsole.instance.GetActivePlayerDeviceIds) {
+			var playerID = AirConsole.instance.ConvertDeviceIdToPlayerNumber (controllerID);
+			var oldPos = Ships [playerID].transform.position;
 			var zeroIndex = (float)playerCount / 2f;
 			if (zeroIndex % 2 == 0)
 				zeroIndex -= .5f;
-			var myRelativeIndex = i - zeroIndex;
+			var myRelativeIndex = playerID - zeroIndex;
 			var yPos = myRelativeIndex * increase;
 			var xPos = 0f;
-			var ship = Ships [id];
-			if (!PlayersSelection.ContainsKey (id)) {
-				PlayersSelection.Add(id, TeamSelection.FreeForAll);
+			var ship = Ships [playerID];
+			if (!PlayersSelection.ContainsKey (playerID)) {
+				PlayersSelection.Add(playerID, TeamSelection.FreeForAll);
 			}
-			switch (PlayersSelection[id]) {
+			switch (PlayersSelection[playerID]) {
 			case TeamSelection.One:
 				xPos = left.transform.position.x;
 				break;
@@ -97,7 +93,7 @@ public class BoatManager : MonoBehaviour {
 
 			var newPos = new Vector3 (xPos, centerHeight + yPos, oldPos.z);
 			ship.gameObject.SetActive (true);
-			shipRects[i].position = newPos;
+			shipRects[playerID].position = newPos;
 		}
 	}
 

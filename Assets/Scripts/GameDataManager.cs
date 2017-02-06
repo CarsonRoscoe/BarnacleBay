@@ -34,10 +34,6 @@ public class GameDataManager : MonoBehaviour {
         }
     }
 
-    public void AddPlayer( int playerID ) {
-
-    }
-
     public void RemovePlayer( int playerID ) {
         Players.Remove( playerID );
         PlayersTeam.Remove( playerID );
@@ -93,5 +89,21 @@ public class GameDataManager : MonoBehaviour {
 		yield return new WaitForSeconds (8f);
         SetGameState( GameState.Menu );
 		SceneManager.LoadScene ("MenuScene");
+	}
+
+	void Update() {
+		var playSeagullesOrWaves = UnityEngine.Random.value <= .01f;
+		if (playSeagullesOrWaves) {
+			PlaySeagullesOrWaves ();
+		}
+	}
+
+	void PlaySeagullesOrWaves() {
+		var isSeagulls = UnityEngine.Random.value <= .5f;
+		if (isSeagulls) {
+			AudioManager.instance.playSound (AudioManager.SFXID.SEAGULLS);
+		} else {
+			AudioManager.instance.playSound (AudioManager.SFXID.WAVES);
+		}
 	}
 }

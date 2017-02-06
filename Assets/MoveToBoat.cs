@@ -53,7 +53,9 @@ public class MoveToBoat : MonoBehaviour {
     }
 
     public void MoveToNewPosition() {
-        if (canMove) {
+		if (canMove) {
+			AudioManager.instance.playSound (AudioManager.SFXID.ONBUTTONCLICK);
+			BoatManager.instance.Init ();
             foreach(var UI in DisabledUI) {
                 UI.SetActive( false );
             }
@@ -67,6 +69,7 @@ public class MoveToBoat : MonoBehaviour {
     }
 
 	public void StartGame() {
+		AudioManager.instance.playSound (AudioManager.SFXID.ONBUTTONCLICK);
         StartCoroutine( BurnPaperThenStart(2f) );
     }
 

@@ -39,12 +39,15 @@ public class BoatManager : MonoBehaviour {
 		bottom = Bottom.GetComponent<RectTransform> ();
 		center = Center.GetComponent<RectTransform> ();
 		shipRects = new RectTransform[Ships.Length];
+    }
+
+	public void Init() {
 		for (int i = 0; i < Ships.Length; i++) {
 			shipRects [i] = Ships [i].GetComponent<RectTransform> ();
 			SetPlayerTeamSelection (i, TeamSelection.FreeForAll);
 		}
 		AirConsole.instance.SetActivePlayers(MaxPlayers);
-    }
+	}
 
 	void Update() {
 		UpdateBoatPositions ();

@@ -31,6 +31,6 @@ public class RoundStart : MonoBehaviour {
             ship.GetComponent<shipController>().PlayerID = playerID;
             GameDataManager.instance.SetPlayer( playerID, ship.gameObject );
         }
-		GameObject.Find ("Main Camera").GetComponent<cameraController> ().updateValues ();
+		GameObject.Find("Main Camera").GetComponent<cameraController> ().updateValues ();
 	}
 }

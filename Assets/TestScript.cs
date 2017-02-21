@@ -12,4 +12,6 @@ public class TestScript : MonoBehaviour {
         print( from );
         AirConsole.instance.Message( from, "Full of pixels!" );
     }
+
+
 }

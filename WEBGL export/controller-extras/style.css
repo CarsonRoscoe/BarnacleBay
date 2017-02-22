@@ -1,0 +1,193 @@
+@font-face {
+    font-family: 'controllerFont';
+    src: url('pixel.otf');
+	font-weight: normal;
+    font-style: normal;
+	font-size: 16px;
+}
+
+tr {
+	background-color: black;
+}
+
+table {
+	height: 100%;
+	width: 100%;
+}
+
+/*
+#imgLoad1 {
+	display: none;
+	background-image: url("./images/ArrowButtonLeftDown.png");
+}
+
+#imgLoad2 {
+	display: none;
+	background-image: url("./images/ArrowButtonRightDown.png");
+}
+
+#imgLoad3 {
+	display: none;
+	background-image: url("./images/StartPressed.png");
+}*/
+
+
+html, body{
+    height: 100%;
+	margin: 0px;
+	background-color: black;
+}
+
+
+input, button, submit, div.button { 
+	border:none; 
+	background-color: black;
+    background-position: center bottom; 
+	outline: none;
+	width: 100%;
+	height: 100%;
+	font-family: 'controllerFont';
+	color: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+} 
+/*
+input.active, button.active, submit.active, div.button.active { 
+	border: 3px solid black;
+	background-color: white;
+	color: black;
+    background-position: center bottom; 
+	outline: none;
+	width: 100%;
+	height: 100%;
+}*/
+
+.buttonText {
+	width: 80%;
+	height: 80%;
+	font-family: 'controllerFont';
+	color: white;
+	background-color: black;
+	border: 3px solid white;
+	border-radius: 15px;
+	text-align: middle;
+	margin: auto;
+	
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.buttonText.active {
+	width: 80%;
+	height: 80%;
+	font-family: 'controllerFont';
+	border: 3px solid white;
+	border-radius: 15px;
+	text-align: middle;
+	margin: auto;
+	color: black;
+	background-color: white;
+}
+
+.left {
+	position: relative;
+	width: 50%;
+}
+
+.right {
+	width: 50%;
+	position: relative;
+}
+
+.bottom {
+	width: 100%;
+	position: relative;
+	text-align: center;
+}
+
+.topSection {
+	height: 70%;
+	max-height: 70%;
+}
+
+.bottomSection {
+	height: 30%;
+	max-height: 30%;
+}
+
+p.displayText {
+	font-size: 32px;
+	text-align: center;
+}
+
+/*
+#leftButton {
+	background-image: url("./images/ArrowButtonLeft.png");
+	padding: 0;
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+
+#leftButton:active {
+	background-image: url("./images/ArrowButtonLeftDown.png");
+	padding: 0;
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+
+#rightButton {
+	background-image: url("./images/ArrowButtonRight.png");
+	padding: 0;
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
+#rightButton:active {
+	background-image: url("./images/ArrowButtonRightDown.png");
+	padding: 0;
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
+#startButton {
+    background-position: center top; 
+	background-image: url("./images/Start.png");
+	padding: 0;
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+}
+
+#startButton:active {
+    background-position: center top; 
+	background-image: url("./images/StartPressed.png");
+	padding: 0;
+	background-size: contain;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
+}
+*/

@@ -21,14 +21,14 @@ public class PlayerHUDHandler : MonoBehaviour {
 
     public void loadList() {
         int slot = 0;
-        foreach (var p in AirConsoleManager.instance.players) {
+        /*foreach (var p in AirConsoleManager.instance.players) {
             slots[slot].SetActive(true);
             slots[slot].GetComponentInChildren<Text>().text = p.name;
             slots[slot].GetComponent<Image>().color = PlayerData.getColorData(p.color);
             slot++;
             if (slot >= 8)
                 break;
-        }
+        }*/
         for (var i = slot; i < 8; i++) {
             slots[i].SetActive(false);
         }

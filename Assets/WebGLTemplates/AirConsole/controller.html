@@ -1,95 +1,118 @@
 <html>
-<head>
-<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/><link rel="stylesheet" href="airconsole-controls/button/button.css">
-<link rel="stylesheet" href="airconsole-controls/dpad/dpad.css">
-<link rel="stylesheet" href="airconsole-controls/joystick/joystick.css">
-<link rel="stylesheet" href="airconsole-controls/ctrl-generator/controller.css">
-</head>
-<body>
+	<head>
+		<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+		<link rel="stylesheet" href="controller-extras/style.css">
+	</head>
+	<body>
+		<div id="imgLoad1"></div> <!-- Used for pre loading images, meant to not be displayed -->
+		<div id="imgLoad2"></div> <!-- Used for pre loading images, meant to not be displayed -->
+		<div id="imgLoad3"></div> <!-- Used for pre loading images, meant to not be displayed -->
+		<div id="splashController" style="display: none;">
+			<table style="width:100%">
+				<tr class="topSection">
+					<td>
+						<p id="welcomeText" class="buttonText displayText">WELCOME TO<br>BARNACLE BAY</p>
+					</td>
+				</tr>
+				<tr class="bottomSection">
+					<td colspan="2" class="bottom" valign="top">
+						<div class="button" id="readySplash" name="READY"></div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="menuController" style="display: none;">
+			<table>
+				<tr class="">
+					<td valign="top" style="width: 33%">
+						<div class="button" id="gameMode0" name="SINGLE GAME"></div>
+					</td>
+					<td valign="top"style="width: 33%">
+						<div class="button" id="gameMode1" name="FIRST TO 3"></div>
+					</td>
+					<td valign="top"style="width: 33%">
+						<div class="button" id="gameMode2" name="FIRST TO 5"></div>
+					</td>
+				</tr>
+				<tr class="">
+					<td class="bottom" valign="top"style="width: 33%">
+						<div class="button" id="readyLeft" name="LEFT TEAM"></div>
+					</td>
+					<td class="bottom" valign="top"style="width: 33%">
+						<div class="button" id="ready" name="FREE FOR ALL"></div>
+					</td>
+					<td class="bottom" valign="top"style="width: 33%">
+						<div class="button" id="readyRight" name="RIGHT TEAM"></div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="gameController" style="display: none;">
+			<table style="width:100% height: 100%">
+				<tr>
+					<td class="bottom" valign="top" style="width: 24%">
+						<div class="button" id="gameMoveLeft" name="TURN LEFT"></div>
+					</td>
+					<td class="bottom" valign="top" style="width: 24%">
+						<div class="button" id="gameMoveRight" name="TURN RIGHT"></div>
+					</td>
+					<td class="bottom" valign="top" style="width: 4%">
+						<div class="container">
+							<p class="buttonText" id="healthBar" ></p>
+						</div>
+					</td>
+					<td class="bottom" valign="top" style="width: 24%">
+						<div class="button" id="gameShootLeft" name="SHOOT LEFT"></div>
+					</td>
+					<td class="bottom" valign="top" style="width: 24%">
+						<div class="button" id="gameShootRight" name="SHOOT RIGHT"></div>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="deadController" style="display: none;">
+			<div class="container">
+				<p id="deathText" class="buttonText displayText">YOU LOST</p>
+			</div>
+		</div>
 
-    <div class="gamepad_container">
-      <div id="left" class="left"></div>
-      <div id="middle" class="middle"></div>
-      <div id="right" class="right"></div>
-    </div>
-  
 
-    <div style="display: none;">
-      <div id="template-DPad">
-        <div>
-          <div class="dpad-arrow dpad-arrow-up"></div>
-          <div class="dpad-arrow dpad-arrow-down"></div>
-          <div class="dpad-arrow dpad-arrow-left"></div>
-          <div class="dpad-arrow dpad-arrow-right"></div>
-        </div>
-      </div>
+		<script type="text/javascript" src="https://www.airconsole.com/api/airconsole-1.6.0.js"></script>
+		<script type="text/javascript" src="controller-extras/jquery.js"></script>
+		<script type="text/javascript" src="controller-extras/RateLimiter.js"></script>
+		<script type="text/javascript" src="controller-extras/MessageControl.js"></script>
+		<script>
+		var airConsole = new AirConsole({orientation: AirConsole.ORIENTATION_LANDSCAPE});
+		var rateLimiter = new RateLimiter(airConsole);
+		window.addEventListener("load", init);
 
-      <div id="template-DPadRelative">
-        <div>
-          <div class="dpad-instructions">SWIPE</div>
-          <div class="dpad-arrow dpad-arrow-up"></div>
-          <div class="dpad-arrow dpad-arrow-down"></div>
-          <div class="dpad-arrow dpad-arrow-left"></div>
-          <div class="dpad-arrow dpad-arrow-right"></div>
-        </div>
-      </div>
+		function getData(data) {
+			for (d in data) {
+				if (typeof data[d] === 'object') {
+					getData(data[d]);
+				} else {
+					enactMessage(d, data[d]);
+				}
+			}
+		}
 
-      <div id="template-Joystick" class="joystick">
-        <div class="joystick-relative">
-          <div class="joystick-relative-stick"></div>
-        </div>
-      </div>
+		airConsole.onMessage = function(device_id, data) {
+			getData(data);
+		};
+		
+		function enactMessage(key, value) {
+			if (key == "setController") {
+				setController(value);
+			} else if (key == "setColor") {
+				setControllerColor(value);
+			} else if (key == "resetSelection") {
+				disableSwitchGroup(1);
+				disableSwitchGroup(2);
+				disableSwitchGroup(3);
+				disableSwitchGroup(4);
+			}
+		}
 
-      <div id="template-SwipeDigital" class="button-300-300 swipe-area">
-        <div class="button-text">SWIPE</div>
-      </div>
-      <div id="template-SwipeAnalog" class="button-300-300 swipe-area">
-        <div class="button-text">SWIPE</div>
-      </div>
-
-      <div id="template-SwipePattern" class="swipe-pattern-container"></div>
-
-      <div id="template-ButtonVertical" class="button-300-150"><div class="button-text"></div></div>
-
-      <div id="template-ButtonMiddle" class="button-80"><div class="button-text">START</div></div>
-    </div>
-  
-<script type="text/javascript" src="https://www.airconsole.com/api/airconsole-1.3.0.js"></script>
-<script type="text/javascript" src="airconsole-controls/rate-limiter/rate-limiter.js"></script>
-<script type="text/javascript" src="airconsole-controls/dpad/dpad.js"></script>
-<script type="text/javascript" src="airconsole-controls/joystick/joystick.js"></script>
-<script type="text/javascript" src="airconsole-controls/button/button.js"></script>
-<script type="text/javascript" src="airconsole-controls/swipe-digital/swipe-digital.js"></script>
-<script type="text/javascript" src="airconsole-controls/swipe-analog/swipe-analog.js"></script>
-<script type="text/javascript" src="airconsole-controls/swipe-pattern/swipe-pattern.js"></script>
-<script type="text/javascript" src="airconsole-controls/ctrl-generator/ctrl-generator.js"></script>
-<script type="text/javascript">
-var airconsole = new AirConsole({orientation: AirConsole.ORIENTATION_LANDSCAPE});
-CtrlGenerator.setAirConsole(airconsole);
-CtrlGenerator.generate({"left":{"type":{"label":"Joystick","class_name":"Joystick"}},"middle":[{"label":"Start","key":"Start"}],"right":{"type":{"label":"DPad","class_name":"DPad"}}});
-
-airconsole.onMessage = function(device_id, data) {
-	setControllerColor(data);
-}
-
-function setControllerColor(c) {
-	document.getElementsByClassName("gamepad_container")[0].style.backgroundColor = "#" + c;
-}
-
-airconsole.onConnect = function(device_id) {
-	if (airconsole.getMasterControllerDeviceId() != airconsole.getDeviceId()) {
-		document.getElementById("middle").display = "none";
-	} else {
-		document.getElementById("middle").display = "block";
-	}
-}
-
-airconsole.onDisconnect = function(device_id) {
-	if (airconsole.getMasterControllerDeviceId() != airconsole.getDeviceId()) {
-		document.getElementById("middle").display = "none";
-	} else {
-		document.getElementById("middle").display = "block";
-	}
-}
-
-</script></body></html>
+		</script>
+	</body>
+</html>

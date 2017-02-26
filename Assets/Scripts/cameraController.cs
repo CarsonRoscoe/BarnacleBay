@@ -100,7 +100,7 @@ public class cameraController : MonoBehaviour {
 	public void updateValues(){
 		valuesTransform.Clear ();
 		foreach (UserHandler.Player p in UserHandler.getInstance().players) {
-            if (p != null ) {
+            if (p != null && p.playerObject != null) {
                 valuesTransform.Add(p.playerObject.transform );
             }
 		}

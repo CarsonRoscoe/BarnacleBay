@@ -86,6 +86,7 @@ public class MoveToBoat : MonoBehaviour {
 		foreach (var image in Paper.GetComponentsInChildren<Image>()) {
 			image.gameObject.SetActive (false);
 		}
+        GameDataManager.instance.ReadyPlayers(BoatManager.instance.PlayersSelection);
 		SceneManager.LoadScene( "GameScene" );
         //Go to next scene
     }

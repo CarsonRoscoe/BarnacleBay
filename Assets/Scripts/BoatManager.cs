@@ -29,7 +29,7 @@ public class BoatManager : MonoBehaviour {
 		instance = this;
 	}
 
-    Dictionary<int, TeamSelection> PlayersSelection = new Dictionary<int, TeamSelection>();
+    public Dictionary<int, TeamSelection> PlayersSelection = new Dictionary<int, TeamSelection>();
 
 	void Start() {
 		AudioManager.instance.playGameMusic( AudioManager.MusicID.MENULOOP );
@@ -41,7 +41,6 @@ public class BoatManager : MonoBehaviour {
 		shipRects = new RectTransform[Ships.Length];
 		for (int i = 0; i < Ships.Length; i++) {
 			shipRects [i] = Ships [i].GetComponent<RectTransform> ();
-			SetPlayerTeamSelection (i, TeamSelection.FreeForAll);
 		}
     }
 
@@ -73,12 +72,15 @@ public class BoatManager : MonoBehaviour {
 			switch (p.teamType) {
 			case UserHandler.TeamType.LEFT:
 				xPos = left.transform.position.x;
+                SetPlayerTeamSelection(AirConsole.instance.ConvertDeviceIdToPlayerNumber(p.deviceID), TeamSelection.One);
 				break;
                 case UserHandler.TeamType.FFA:
                     xPos = center.transform.position.x;
+                SetPlayerTeamSelection(AirConsole.instance.ConvertDeviceIdToPlayerNumber(p.deviceID), TeamSelection.FreeForAll);
 				break;
                 case UserHandler.TeamType.RIGHT:
                     xPos = right.transform.position.x;
+                SetPlayerTeamSelection(AirConsole.instance.ConvertDeviceIdToPlayerNumber(p.deviceID), TeamSelection.Two);
 				break;
 			default:
 				break;
@@ -113,6 +115,12 @@ public class BoatManager : MonoBehaviour {
             PlayersSelection.Add( playerID, teamSelection );
         } else {
             PlayersSelection[playerID] = teamSelection;
+        }
+    }
+
+    public void RemovePlayerFromTeamSelection(int playerID) {
+        if (PlayersSelection.ContainsKey(playerID)) {
+            PlayersSelection.Remove(playerID);
         }
     }
 

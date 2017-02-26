@@ -31,6 +31,7 @@ public class GameDataManager : MonoBehaviour {
     }
 
     public void RemovePlayer( int playerID ) {
+        print(playerID);
         UserHandler.getInstance().getPlayerByID(playerID).resetGame();
         PlayersTeam.Remove( playerID );
 
@@ -43,6 +44,7 @@ public class GameDataManager : MonoBehaviour {
                 twoIsAlive = true;
             }
         }
+        print(string.Format("OneIsAlive: {0}, TwoisAlive: {1}, PlayerTeamCount: {2}", oneIsAlive, twoIsAlive, PlayersTeam.Keys.Count));
         if (oneIsAlive && !twoIsAlive) {
             print( "Team One WON" );
 			Camera.main.GetComponent<cameraController> ().endGame ();
@@ -64,6 +66,7 @@ public class GameDataManager : MonoBehaviour {
     }
 
     public void ReadyPlayers( Dictionary<int, TeamSelection> playersSelection ) {
+        print("ReadyPlayers: " + playersSelection.Count);
         PlayersTeam = playersSelection;
     }
 
@@ -74,7 +77,8 @@ public class GameDataManager : MonoBehaviour {
 	IEnumerator ReturnToMenu() {
 		yield return new WaitForSeconds (8f);
         SetGameState( GameState.Menu );
-		SceneManager.LoadScene ("NewMenuScene");
+        PlayersTeam.Clear();
+		SceneManager.LoadScene ("MainMenu");
 	}
 
 	void Update() {

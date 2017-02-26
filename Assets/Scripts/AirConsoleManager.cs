@@ -48,6 +48,9 @@ public class AirConsoleManager : MonoBehaviour {
     }
 
     void OnDisconnect( int controllerID ) {
+        if (SceneManager.GetActiveScene().name == "MainMenu") {
+            BoatManager.instance.RemovePlayerFromTeamSelection(AirConsole.instance.ConvertDeviceIdToPlayerNumber(controllerID));
+        }
         UserHandler.getInstance().deletePlayer(controllerID);
         var cameraController = GameObject.Find( "Main Camera" ).GetComponent<cameraController>();
         if ( cameraController != null ) {

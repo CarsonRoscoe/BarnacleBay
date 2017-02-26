@@ -74,7 +74,7 @@ public class GameDataManager : MonoBehaviour {
 	IEnumerator ReturnToMenu() {
 		yield return new WaitForSeconds (8f);
         SetGameState( GameState.Menu );
-		SceneManager.LoadScene ("MenuScene");
+		SceneManager.LoadScene ("NewMenuScene");
 	}
 
 	void Update() {

@@ -12,7 +12,11 @@ public class UserHandler {
     //enum for getting which type of score
     public enum ScoreType { GAME, SESSION, TOTAL_GAMES };
 
-    public enum GameType { ONE_GAME, THREE_GAME, FIVE_GAME };
+    public enum GameType { ONE_GAME, THREE_GAME, FIVE_GAME, NONE_SET };
+
+    public enum TeamType { LEFT, FFA, RIGHT };
+
+    public GameType gameType = GameType.NONE_SET;
 
     //player count left in the round
     public int playersLeft {
@@ -146,7 +150,7 @@ public class UserHandler {
     Resets all players ready for next game. Best to call the player reset functions
     from here.
     */
-    public void resetPlayers(bool inTournament) {
+    public void resetPlayers() {
         foreach (Player p in players) {
             p.resetGame();
         }
@@ -164,6 +168,7 @@ public class UserHandler {
         playersLeft = players.Count;
     }
 
+
     /*
     Checks to see if all players are ready to proceed to the 
     game. Requires all users to put their ready input in.
@@ -173,7 +178,6 @@ public class UserHandler {
             if (!p.readyToPlay)
                 return false;
         }
-        setAllReady(false);
         return true;
     }
 
@@ -187,6 +191,7 @@ public class UserHandler {
             p.readyToPlay = ready;
         }
     }
+
 
     /*
     Gets the highest of the 4 types of scores and returns that player.
@@ -271,6 +276,9 @@ public class UserHandler {
 
         //is the player ready for the game to start?
         public bool readyToPlay = false;
+
+        //what team is the player on
+        public TeamType teamType = TeamType.FFA;
 
         //is the player/dead eliminated from this round?
         private bool isOutOfRound;

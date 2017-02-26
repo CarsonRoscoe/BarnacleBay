@@ -6,6 +6,7 @@ var buttons = {
 	ready: null,
 	readyLeft: null,
 	readyRight: null,
+	readyTeam: null,
     gameMoveLeft: null,
 	gameMoveRight: null,
 	gameShootLeft: null,
@@ -22,6 +23,7 @@ var welcomeText = document.getElementById("welcomeText");
 var controllerColor = "FFFFFF";
 
 var controllers = {
+	lobby: document.getElementById("lobbyController"),
 	splash: document.getElementById("splashController"),
 	menu: document.getElementById("menuController"),
 	game: document.getElementById("gameController"),
@@ -36,6 +38,7 @@ init = function() {
 	buttons.ready = document.getElementById("ready");
 	buttons.readyLeft = document.getElementById("readyLeft");
 	buttons.readyRight = document.getElementById("readyRight");
+	buttons.readyTeam = document.getElementById("readyTeam");
 	buttons.gameMoveLeft = document.getElementById("gameMoveLeft");
     buttons.gameMoveRight = document.getElementById("gameMoveRight");
 	buttons.gameShootLeft = document.getElementById("gameShootLeft");
@@ -45,6 +48,8 @@ init = function() {
 		controllers[c].style.display = "none";
 	}
 	
+	setControllerType("lobby");
+	
 	buttons["gameMode0"] = assignNewListeners(buttons["gameMode0"], 1);
 	buttons["gameMode1"] = assignNewListeners(buttons["gameMode1"], 1);
 	buttons["gameMode2"] = assignNewListeners(buttons["gameMode2"], 1);
@@ -52,6 +57,7 @@ init = function() {
 	buttons["ready"] = assignNewListeners(buttons["ready"], 3);
 	buttons["readyLeft"] = assignNewListeners(buttons["readyLeft"], 3);
 	buttons["readyRight"] = assignNewListeners(buttons["readyRight"], 3);
+	buttons["readyTeam"] = assignNewListeners(buttons["readyTeam"], 4);
 	buttons["gameMoveLeft"] = assignNewListeners(buttons["gameMoveLeft"], -1);
 	buttons["gameMoveRight"] = assignNewListeners(buttons["gameMoveRight"], -1);
 	buttons["gameShootLeft"] = assignNewListeners(buttons["gameShootLeft"], -1);
@@ -110,7 +116,6 @@ function assignNewListeners(elem, switchGroup) {
 				$('#' + elem.id + "Text").css('background-color', '#' + controllerColor);
 			}
 		}
-		console.log(elem.getAttribute("name") + " pressed");
 		e.preventDefault();
 	});
 	
@@ -126,7 +131,6 @@ function assignNewListeners(elem, switchGroup) {
 			$('#' + elem.id + "Text").css('color', '#' + controllerColor);
 			$('#' + elem.id + "Text").css('background-color', 'black');
 		}
-		console.log(elem.getAttribute("name") + " released");
 		e.preventDefault();
 	});
 	
@@ -138,8 +142,32 @@ function assignNewListeners(elem, switchGroup) {
 	return elem;
 }
 
+function forceEnable(elemName) {
+	var elem = document.getElementById(elemName);
+	if (elem.getAttribute("switchGroup") == -1) {
+		elem.children[0].classList.add("active");
+		$('#' + elem.id + "Text").css('border-color', '#' + controllerColor);
+		$('#' + elem.id + "Text").css('color', 'black');
+		$('#' + elem.id + "Text").css('background-color', '#' + controllerColor);
+	} else {
+		disableSwitchGroup(elem.getAttribute("switchGroup"));
+		if (elem.children[0].classList.contains("active")) {
+			elem.children[0].classList.remove("active");
+			$('#' + elem.id + "Text").css('border-color', '#' + controllerColor);
+			$('#' + elem.id + "Text").css('color', '#' + controllerColor);
+			$('#' + elem.id + "Text").css('background-color', 'black');
+		} else {
+			elem.children[0].classList.add("active");
+			$('#' + elem.id + "Text").css('border-color', '#' + controllerColor);
+			$('#' + elem.id + "Text").css('color', 'black');
+			$('#' + elem.id + "Text").css('background-color', '#' + controllerColor);
+		}
+	}
+}
+
 function sendMessage(name, pressed) {
-	var o = {"name": name, "pressed": pressed};
+	var o = {};
+	o[name] = pressed;
 	airConsole.message(0, o);
 }
 
@@ -163,12 +191,12 @@ function getDeathText() {
 	}
 }
 
-function damage() {
-	if (lives <= 1) {
+function setHP(hp) {
+	lives = hp;
+	if (lives < 1) {
 		document.getElementById("deathText").innerHTML = getDeathText();
 		setControllerType("dead");
 		return;
 	}
-	lives--;
 	healthBar.style.height = (healthPercent * (lives / totalLives)) + "%";
 }

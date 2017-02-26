@@ -99,11 +99,9 @@ public class cameraController : MonoBehaviour {
 
 	public void updateValues(){
 		valuesTransform.Clear ();
-		foreach (var id in AirConsole.instance.GetActivePlayerDeviceIds) {
-			var playerID = AirConsole.instance.ConvertDeviceIdToPlayerNumber (id);
-			var boat = GameDataManager.instance.GetPlayer (playerID);
-            if (boat != null ) {
-                valuesTransform.Add( boat.transform );
+		foreach (UserHandler.Player p in UserHandler.getInstance().players) {
+            if (p != null ) {
+                valuesTransform.Add(p.playerObject.transform );
             }
 		}
 	}

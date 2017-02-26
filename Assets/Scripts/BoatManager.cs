@@ -53,7 +53,7 @@ public class BoatManager : MonoBehaviour {
 		var slot = 0;
 		var deviceIDs = AirConsole.instance.GetActivePlayerDeviceIds;
 		SetActiveBoatSprites (false);
-		var playerCount = AirConsole.instance.GetActivePlayerDeviceIds.Count;
+        var playerCount = UserHandler.getInstance().players.Count;
 		var topHeight = top.anchoredPosition.y;
 		var bottomHeight = bottom.anchoredPosition.y;
 		var height = Mathf.Abs (topHeight - bottomHeight);
@@ -62,36 +62,32 @@ public class BoatManager : MonoBehaviour {
 		int[] positions = new int[playerCount];
 		var actualHeight = increase * playerCount;
 
-		foreach (var controllerID in AirConsole.instance.GetActivePlayerDeviceIds) {
-			var playerID = AirConsole.instance.ConvertDeviceIdToPlayerNumber (controllerID);
-			var oldPos = Ships [playerID].transform.position;
+        var i = 0;
+		foreach (UserHandler.Player p in UserHandler.getInstance().players) {
 			var zeroIndex = (float)playerCount / 2f;
 			if (zeroIndex % 2 == 0)
 				zeroIndex -= .5f;
-			var myRelativeIndex = playerID - zeroIndex;
+			var myRelativeIndex = i - zeroIndex;
 			var yPos = myRelativeIndex * increase;
 			var xPos = 0f;
-			var ship = Ships [playerID];
-			if (!PlayersSelection.ContainsKey (playerID)) {
-				PlayersSelection.Add(playerID, TeamSelection.FreeForAll);
-			}
-			switch (PlayersSelection[playerID]) {
-			case TeamSelection.One:
+			switch (p.teamType) {
+			case UserHandler.TeamType.LEFT:
 				xPos = left.transform.position.x;
 				break;
-			case TeamSelection.FreeForAll:
-				xPos = center.transform.position.x;
+                case UserHandler.TeamType.FFA:
+                    xPos = center.transform.position.x;
 				break;
-			case TeamSelection.Two:
-				xPos = right.transform.position.x;
+                case UserHandler.TeamType.RIGHT:
+                    xPos = right.transform.position.x;
 				break;
 			default:
 				break;
 			}
 
-			var newPos = new Vector3 (xPos, centerHeight + yPos, oldPos.z);
-			ship.gameObject.SetActive (true);
-			shipRects[playerID].position = newPos;
+			var newPos = new Vector3 (xPos, centerHeight + yPos, -1);
+			shipRects[i].gameObject.SetActive (true);
+			shipRects[i].position = newPos;
+            i++;
 		}
 	}
 

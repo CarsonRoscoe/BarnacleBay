@@ -13,7 +13,6 @@ public class GameDataManager : MonoBehaviour {
     public GameState GameState { get { return _gameState; } }
 
     private Dictionary<int, TeamSelection> PlayersTeam = new Dictionary<int, TeamSelection>();
-    private Dictionary<int, GameObject> Players = new Dictionary<int, GameObject>();
 
     void Awake() {
         if ( instance == null ) {
@@ -26,16 +25,13 @@ public class GameDataManager : MonoBehaviour {
     }
 
     public void SetPlayer( int playerID, GameObject player ) {
-        if ( !Players.ContainsKey( playerID ) ) {
-            Players.Add( playerID, player );
-        }
-        else {
-            Players[playerID] = player;
-        }
+        UserHandler.Player p = UserHandler.getInstance().getPlayerByID(playerID);
+        if (p != null)
+            p.playerObject = player;
     }
 
     public void RemovePlayer( int playerID ) {
-        Players.Remove( playerID );
+        UserHandler.getInstance().getPlayerByID(playerID).resetGame();
         PlayersTeam.Remove( playerID );
 
         var oneIsAlive = false;
@@ -61,17 +57,7 @@ public class GameDataManager : MonoBehaviour {
 			StartCoroutine (ReturnToMenu ());
         }
     }
-
-    public GameObject GetPlayer( int playerID ) {
-        if ( Players.ContainsKey( playerID ) ) {
-            return Players[playerID];
-        }
-        return null;
-    }
-
-    public void ResetPlayerData() {
-        Players.Clear();
-    }
+    
 
     public void SetGameState( GameState gameState ) {
         _gameState = gameState;

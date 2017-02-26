@@ -6,6 +6,9 @@ using UnityEngine;
 using UnityEngine.Experimental.Director;
 
 public class shipController : MonoBehaviour {
+    public bool isRotateLeft = false;
+    public bool isRotateRight = false;
+
 	private const float toDegrees = 57.2958f;
 	public int PlayerID;
 	public float targetAngle = -1;
@@ -38,6 +41,7 @@ public class shipController : MonoBehaviour {
 		}
 		private set {
 			_health = value;
+            AirConsoleManager.instance.updateHealth(PlayerID, value);
 			if ( _health == 0 ) {
 				Die();
 			}
@@ -151,6 +155,11 @@ public class shipController : MonoBehaviour {
 	void Update() {
 		//find shortest rotation to the angle and keep rotating till user stops touching joystick
 		moveShip();
+        if (isRotateLeft)
+            rotateLeft();
+        if (isRotateRight)
+            rotateRight();
+        /*
 		if ( targetAngle != -1 ) {
 			if ( targetAngle == 1 ) {
 				rotateLeft();
@@ -158,7 +167,7 @@ public class shipController : MonoBehaviour {
 			else if ( targetAngle == 0 ) {
 				rotateRight();
 			}
-		}
+		}*/
 	}
 
 	void OnCollisionEnter( Collision collision ) {

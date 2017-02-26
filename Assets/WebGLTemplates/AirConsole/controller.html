@@ -7,6 +7,15 @@
 		<div id="imgLoad1"></div> <!-- Used for pre loading images, meant to not be displayed -->
 		<div id="imgLoad2"></div> <!-- Used for pre loading images, meant to not be displayed -->
 		<div id="imgLoad3"></div> <!-- Used for pre loading images, meant to not be displayed -->
+		<div id="lobbyController">
+			<table style="width:100%">
+				<tr class="topSection">
+					<td>
+						<p id="lobbyText" class="buttonText displayText">WAITING TO<br>JOIN GAME</p>
+					</td>
+				</tr>
+			</table>
+		</div>
 		<div id="splashController" style="display: none;">
 			<table style="width:100%">
 				<tr class="topSection">
@@ -23,7 +32,7 @@
 		</div>
 		<div id="menuController" style="display: none;">
 			<table>
-				<tr class="">
+				<tr class="" style="display: none;"> <!-- REMOVE THIS HIDE WHEN ADDING TOUNRMANETS-->
 					<td valign="top" style="width: 33%">
 						<div class="button" id="gameMode0" name="SINGLE GAME"></div>
 					</td>
@@ -34,7 +43,7 @@
 						<div class="button" id="gameMode2" name="FIRST TO 5"></div>
 					</td>
 				</tr>
-				<tr class="">
+				<tr class="topSection"><!-- REMOVE THIS 100% WHEN ADDING TOUNRMANETS-->
 					<td class="bottom" valign="top"style="width: 33%">
 						<div class="button" id="readyLeft" name="LEFT TEAM"></div>
 					</td>
@@ -43,6 +52,11 @@
 					</td>
 					<td class="bottom" valign="top"style="width: 33%">
 						<div class="button" id="readyRight" name="RIGHT TEAM"></div>
+					</td>
+				</tr>
+				<tr class="bottomSection">
+					<td colspan="3" class="bottom" valign="top">
+						<div class="button" id="readyTeam" name="READY"></div>
 					</td>
 				</tr>
 			</table>
@@ -101,15 +115,22 @@
 		};
 		
 		function enactMessage(key, value) {
-			if (key == "setController") {
-				setController(value);
-			} else if (key == "setColor") {
+			console.log("Message Recieved: " + key + " : " + value);
+			if (key == "setControllerType") {
+				setControllerType(value);
+			} else if (key == "setControllerColor") {
 				setControllerColor(value);
 			} else if (key == "resetSelection") {
 				disableSwitchGroup(1);
 				disableSwitchGroup(2);
 				disableSwitchGroup(3);
 				disableSwitchGroup(4);
+			} else if (key == "forceClick") {
+				document.getElementById(value).dispatchEvent(new Event('touchstart'));
+			} else if (key == "forceEnable") {
+				forceEnable(value);
+			} else if (key == "updateHealth") {
+				setHP(value);
 			}
 		}
 

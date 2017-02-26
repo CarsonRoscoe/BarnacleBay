@@ -86,7 +86,7 @@ public class MoveToBoat : MonoBehaviour {
 		foreach (var image in Paper.GetComponentsInChildren<Image>()) {
 			image.gameObject.SetActive (false);
 		}
-		SceneManager.LoadScene( "Enviroment_Final" );
+		SceneManager.LoadScene( "GameScene" );
         //Go to next scene
     }
 }

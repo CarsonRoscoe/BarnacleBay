@@ -135,14 +135,14 @@ public class AirConsoleManager : MonoBehaviour {
         playerColorsCount[lowestIndex]++;
         float constSat = 170f / 255f;
         switch (lowestIndex) {
-            case 0: return Color.HSVToRGB(300 / 360f, constSat, 1, true);
-            case 1: return Color.HSVToRGB(265 / 360f, constSat, 1, true);
-            case 2: return Color.HSVToRGB(233 / 360f, constSat, 1, true);
-            case 3: return Color.HSVToRGB(200 / 360f, constSat, 1, true);
-            case 4: return Color.HSVToRGB(166 / 360f, constSat, 1, true);
-            case 5: return Color.HSVToRGB(133 / 360f, constSat, 1, true);
-            case 6: return Color.HSVToRGB(66 / 360f, constSat, 1, true);
-            case 7: return Color.HSVToRGB(33 / 360f, constSat, 1, true);
+            case 0: return new Color(0.0f, 0.8f, 0.0f);//Color.HSVToRGB(300 / 360f, constSat, 1, true);
+            case 1: return new Color(85f/255f,26/255f,139/255f);//Color.HSVToRGB(265 / 360f, constSat, 1, true);
+            case 2: return new Color(1.0f,116/256f,0.0f);//Color.HSVToRGB(233 / 360f, constSat, 1, true);
+            case 3: return new Color(0.0f,1.0f,1.0f);//Color.HSVToRGB(200 / 360f, constSat, 1, true);
+            case 4: return new Color(216f/255f,0.0f,0.0f);//Color.HSVToRGB(166 / 360f, constSat, 1, true);
+            case 5: return new Color(1.0f,215f/255f,0.0f);//Color.HSVToRGB(133 / 360f, constSat, 1, true);
+            case 6: return new Color(201f/255f, 201f/255f, 201f/255f);//Color.HSVToRGB(66 / 360f, constSat, 1, true);
+            case 7: return new Color(72f/255f, 72f/255f, 72f/255f);//Color.HSVToRGB(33 / 360f, constSat, 1, true);
             case 8: return Color.HSVToRGB(0 / 360f, constSat, 1, true);
             case 9: return Color.HSVToRGB(0 / 360f, 0, 1, true);
         }

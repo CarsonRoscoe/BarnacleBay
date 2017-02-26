@@ -18,10 +18,10 @@ public class AirConsoleManager : MonoBehaviour {
     public const int MAX_PLAYERS = 8;
 
     void Awake() {
-        if (instance == null)
+        if ( instance == null )
             instance = this;
         else
-            Destroy(this);
+            Destroy( this );
         AirConsole.instance.onConnect += OnConnect;
         AirConsole.instance.onMessage += OnMessage;
         AirConsole.instance.onDisconnect += OnDisconnect;
@@ -29,18 +29,18 @@ public class AirConsoleManager : MonoBehaviour {
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            var moveBoat = GameObject.Find("Main Camera").GetComponent<MoveToBoat>();
+        if ( Input.GetKeyDown( KeyCode.Space ) ) {
+            var moveBoat = GameObject.Find( "Main Camera" ).GetComponent<MoveToBoat>();
             moveBoat.StartGame();
         }
     }
-
+    
     void OnConnect( int controllerID ) {
-        if (UserHandler.getInstance().players.Count >= MAX_PLAYERS)
+        if ( UserHandler.getInstance().players.Count >= MAX_PLAYERS )
             return;
-        UserHandler.Player p = UserHandler.getInstance().addPlayer(controllerID, AirConsole.instance.GetUID(controllerID), getNewPlayerColor());
-        setController(controllerID);
-        sendMessage(controllerID, "setControllerColor", colorToHex(p.color));
+        UserHandler.Player p = UserHandler.getInstance().addPlayer( controllerID, AirConsole.instance.GetUID( controllerID ), getNewPlayerColor() );
+        setController( controllerID );
+        sendMessage( controllerID, "setControllerColor", colorToHex( p.color ) );
         var cameraController = GameObject.Find( "Main Camera" ).GetComponent<cameraController>();
         if ( cameraController != null ) {
             cameraController.updateValues();
@@ -48,39 +48,39 @@ public class AirConsoleManager : MonoBehaviour {
     }
 
     void OnDisconnect( int controllerID ) {
-        if (SceneManager.GetActiveScene().name == "MainMenu") {
-            BoatManager.instance.RemovePlayerFromTeamSelection(AirConsole.instance.ConvertDeviceIdToPlayerNumber(controllerID));
+        if ( SceneManager.GetActiveScene().name == "MainMenu" ) {
+            BoatManager.instance.RemovePlayerFromTeamSelection( AirConsole.instance.ConvertDeviceIdToPlayerNumber( controllerID ) );
         }
-        UserHandler.getInstance().deletePlayer(controllerID);
+        UserHandler.getInstance().deletePlayer( controllerID );
         var cameraController = GameObject.Find( "Main Camera" ).GetComponent<cameraController>();
         if ( cameraController != null ) {
             cameraController.updateValues();
         }
     }
 
-    public void setController(int deviceID, bool broadcast = false, string control = null) {
+    public void setController( int deviceID, bool broadcast = false, string control = null ) {
         string sceneName = SceneManager.GetActiveScene().name;
         string controller = "splash";
-        if (control == null) {
-            if (sceneName.Equals("MainMenu")) {
-                if (!BoatManager.instance.InTeamSelectMode)
+        if ( control == null ) {
+            if ( sceneName.Equals( "MainMenu" ) ) {
+                if ( !BoatManager.instance.InTeamSelectMode )
                     controller = "splash";
                 else
                     controller = "menu";
-            } else if (sceneName.Equals("GameScene")) {
+            } else if ( sceneName.Equals( "GameScene" ) ) {
                 controller = "game";
             }
         } else {
             controller = control;
         }
 
-        if (broadcast)
-            broadcastMessage("setControllerType", controller);
+        if ( broadcast )
+            broadcastMessage( "setControllerType", controller );
         else
-            sendMessage(deviceID, "setControllerType", controller);
+            sendMessage( deviceID, "setControllerType", controller );
     }
 
-    public void removePlayerData(int playerID) {
+    public void removePlayerData( int playerID ) {
         var missingID = 0;
         /*foreach (var pp in players) {
             if (pp.playerID == -1)
@@ -91,17 +91,17 @@ public class AirConsoleManager : MonoBehaviour {
                 players.RemoveAt(i);
             }
         }*/
-        if (PlayerHUDHandler.instance != null)
+        if ( PlayerHUDHandler.instance != null )
             PlayerHUDHandler.instance.loadList();
     }
 
-    private string colorToHex(Color c) {
-        return ((byte)(c.r * 255f)).ToString("X2") + ((byte)(c.g * 255f)).ToString("X2") + ((byte)(c.b * 255f)).ToString("X2");
+    private string colorToHex( Color c ) {
+        return ((byte)(c.r * 255f)).ToString( "X2" ) + ((byte)(c.g * 255f)).ToString( "X2" ) + ((byte)(c.b * 255f)).ToString( "X2" );
     }
 
-    public void updateHealth(int id, int hp) {
-        JObject data = JObject.Parse(@"{ 'updateHealth': " + hp + "}");
-        AirConsole.instance.Message(id, data);
+    public void updateHealth( int id, int hp ) {
+        JObject data = JObject.Parse( @"{ 'updateHealth': " + hp + "}" );
+        AirConsole.instance.Message( id, data );
     }
 
     public void resetGame() {
@@ -110,14 +110,14 @@ public class AirConsoleManager : MonoBehaviour {
         }*/
     }
 
-    public void broadcastMessage(string key, string value) {
-        JObject data = JObject.Parse(@"{ '" + key + "': '" + value + "'}");
-        AirConsole.instance.Broadcast(data);
+    public void broadcastMessage( string key, string value ) {
+        JObject data = JObject.Parse( @"{ '" + key + "': '" + value + "'}" );
+        AirConsole.instance.Broadcast( data );
     }
 
-    public void sendMessage(int ID, string key, string value) {
-        JObject data = JObject.Parse(@"{ '" + key + "': '" + value + "'}");
-        AirConsole.instance.Message(ID, data);
+    public void sendMessage( int ID, string key, string value ) {
+        JObject data = JObject.Parse( @"{ '" + key + "': '" + value + "'}" );
+        AirConsole.instance.Message( ID, data );
     }
 
     /*public PlayerData addPlayerData(int playerID) {
@@ -128,54 +128,91 @@ public class AirConsoleManager : MonoBehaviour {
 
     public Color getNewPlayerColor() {
         var lowestIndex = 0;
-        for (int i = 1; i < playerColorsCount.Length; i++) {
-            if (playerColorsCount[i - 1] > playerColorsCount[i])
+        for ( int i = 1; i < playerColorsCount.Length; i++ ) {
+            if ( playerColorsCount[i - 1] > playerColorsCount[i] )
                 lowestIndex = i;
         }
         playerColorsCount[lowestIndex]++;
         float constSat = 170f / 255f;
-        switch (lowestIndex) {
-            case 0: return new Color(0.0f, 0.8f, 0.0f);//Color.HSVToRGB(300 / 360f, constSat, 1, true);
-            case 1: return new Color(85f/255f,26/255f,139/255f);//Color.HSVToRGB(265 / 360f, constSat, 1, true);
-            case 2: return new Color(1.0f,116/256f,0.0f);//Color.HSVToRGB(233 / 360f, constSat, 1, true);
-            case 3: return new Color(0.0f,1.0f,1.0f);//Color.HSVToRGB(200 / 360f, constSat, 1, true);
-            case 4: return new Color(216f/255f,0.0f,0.0f);//Color.HSVToRGB(166 / 360f, constSat, 1, true);
-            case 5: return new Color(1.0f,215f/255f,0.0f);//Color.HSVToRGB(133 / 360f, constSat, 1, true);
-            case 6: return new Color(201f/255f, 201f/255f, 201f/255f);//Color.HSVToRGB(66 / 360f, constSat, 1, true);
-            case 7: return new Color(72f/255f, 72f/255f, 72f/255f);//Color.HSVToRGB(33 / 360f, constSat, 1, true);
-            case 8: return Color.HSVToRGB(0 / 360f, constSat, 1, true);
-            case 9: return Color.HSVToRGB(0 / 360f, 0, 1, true);
+        switch ( lowestIndex ) {
+            case 0:
+                return new Color( 0.0f, 0.8f, 0.0f );//Color.HSVToRGB(300 / 360f, constSat, 1, true);
+            case 1:
+                return new Color( 85f / 255f, 26 / 255f, 139 / 255f );//Color.HSVToRGB(265 / 360f, constSat, 1, true);
+            case 2:
+                return new Color( 1.0f, 116 / 256f, 0.0f );//Color.HSVToRGB(233 / 360f, constSat, 1, true);
+            case 3:
+                return new Color( 0.0f, 1.0f, 1.0f );//Color.HSVToRGB(200 / 360f, constSat, 1, true);
+            case 4:
+                return new Color( 216f / 255f, 0.0f, 0.0f );//Color.HSVToRGB(166 / 360f, constSat, 1, true);
+            case 5:
+                return new Color( 1.0f, 215f / 255f, 0.0f );//Color.HSVToRGB(133 / 360f, constSat, 1, true);
+            case 6:
+                return new Color( 201f / 255f, 201f / 255f, 201f / 255f );//Color.HSVToRGB(66 / 360f, constSat, 1, true);
+            case 7:
+                return new Color( 72f / 255f, 72f / 255f, 72f / 255f );//Color.HSVToRGB(33 / 360f, constSat, 1, true);
+            case 8:
+                return Color.HSVToRGB( 0 / 360f, constSat, 1, true );
+            case 9:
+                return Color.HSVToRGB( 0 / 360f, 0, 1, true );
         }
         //should never return this.
-        return Color.HSVToRGB(0, 0, 0, true);
+        return Color.HSVToRGB( 0, 0, 0, true );
+    }
+
+    public Color getColorByPlayerID(int playerID) {
+        switch ( playerID ) {
+            case 0:
+                return new Color( 0.0f, 0.8f, 0.0f );//Color.HSVToRGB(300 / 360f, constSat, 1, true);
+            case 1:
+                return new Color( 85f / 255f, 26 / 255f, 139 / 255f );//Color.HSVToRGB(265 / 360f, constSat, 1, true);
+            case 2:
+                return new Color( 1.0f, 116 / 256f, 0.0f );//Color.HSVToRGB(233 / 360f, constSat, 1, true);
+            case 3:
+                return new Color( 0.0f, 1.0f, 1.0f );//Color.HSVToRGB(200 / 360f, constSat, 1, true);
+            case 4:
+                return new Color( 216f / 255f, 0.0f, 0.0f );//Color.HSVToRGB(166 / 360f, constSat, 1, true);
+            case 5:
+                return new Color( 1.0f, 215f / 255f, 0.0f );//Color.HSVToRGB(133 / 360f, constSat, 1, true);
+            case 6:
+                return new Color( 201f / 255f, 201f / 255f, 201f / 255f );//Color.HSVToRGB(66 / 360f, constSat, 1, true);
+            case 7:
+                return new Color( 72f / 255f, 72f / 255f, 72f / 255f );//Color.HSVToRGB(33 / 360f, constSat, 1, true);
+            case 8:
+                return Color.HSVToRGB( 0 / 360f, 170f/255f, 1, true );
+            case 9:
+                return Color.HSVToRGB( 0 / 360f, 0, 1, true );
+        }
+        //should never return this.
+        return Color.HSVToRGB( 0, 0, 0, true );
     }
 
     void OnMessage( int controllerID, JToken data ) {
         Dictionary<string, string> result = data.ToObject<Dictionary<string, string>>();
-        foreach (var item in result) {
-            EnactAction(controllerID, item.Key, item.Value);
+        foreach ( var item in result ) {
+            EnactAction( controllerID, item.Key, item.Value );
         }
     }
 
-    void EnactAction(int id, string key, string value) {
-        Debug.Log("Recieved Message: " + key + " : " + value);
+    void EnactAction( int id, string key, string value ) {
+        Debug.Log( "Recieved Message: " + key + " : " + value );
 
-        if (key.Equals("readySplash") && value.Equals("True")) {
-            var moveBoat = GameObject.Find("Main Camera").GetComponent<MoveToBoat>();
-            if (!BoatManager.instance.InTeamSelectMode) {
+        if ( key.Equals( "readySplash" ) && value.Equals( "True" ) ) {
+            var moveBoat = GameObject.Find( "Main Camera" ).GetComponent<MoveToBoat>();
+            if ( !BoatManager.instance.InTeamSelectMode ) {
                 moveBoat.MoveToNewPosition();
                 BoatManager.instance.InTeamSelectMode = true;
-                setController(-1, true);
-                broadcastMessage("forceEnable", "ready");
+                setController( -1, true );
+                broadcastMessage( "forceEnable", "ready" );
             }
         }
 
-        if ((key.Equals("ready") || key.Equals("readyLeft") || key.Equals("readyRight")) && value.Equals("True")) {
-            var moveBoat = GameObject.Find("Main Camera").GetComponent<MoveToBoat>();
-            UserHandler.Player p = UserHandler.getInstance().getPlayerByID(id);
-            if (p == null)
+        if ( (key.Equals( "ready" ) || key.Equals( "readyLeft" ) || key.Equals( "readyRight" )) && value.Equals( "True" ) ) {
+            var moveBoat = GameObject.Find( "Main Camera" ).GetComponent<MoveToBoat>();
+            UserHandler.Player p = UserHandler.getInstance().getPlayerByID( id );
+            if ( p == null )
                 return;
-            switch(key) {
+            switch ( key ) {
                 case "ready":
                     p.teamType = UserHandler.TeamType.FFA;
                     break;
@@ -186,18 +223,18 @@ public class AirConsoleManager : MonoBehaviour {
                     p.teamType = UserHandler.TeamType.RIGHT;
                     break;
             }
-            if (UserHandler.getInstance().allPlayersReady() /*&& UserHandler.getInstance().gameType != UserHandler.GameType.NONE_SET*/) { //remove this comment for tournaments.
+            if ( UserHandler.getInstance().allPlayersReady() /*&& UserHandler.getInstance().gameType != UserHandler.GameType.NONE_SET*/) { //remove this comment for tournaments.
                 int gameType = -1; //-1 = none set yet, 1 = ffa, 2 = left & right teams. if two conflicting values (ignoring -1) found, do not start game.
-                foreach (UserHandler.Player pp in UserHandler.getInstance().players) {
-                    if (pp.teamType == UserHandler.TeamType.FFA) {
-                        if (gameType == -1)
+                foreach ( UserHandler.Player pp in UserHandler.getInstance().players ) {
+                    if ( pp.teamType == UserHandler.TeamType.FFA ) {
+                        if ( gameType == -1 )
                             gameType = 1;
-                        else if (gameType == 2)
+                        else if ( gameType == 2 )
                             return;
                     } else {
-                        if (gameType == -1)
+                        if ( gameType == -1 )
                             gameType = 2;
-                        else if (gameType == 1)
+                        else if ( gameType == 1 )
                             return;
                     }
                 }
@@ -205,71 +242,73 @@ public class AirConsoleManager : MonoBehaviour {
             }
         }
 
-        if (key.Equals("readyTeam") && value.Equals("True")) {
-            UserHandler.Player p = UserHandler.getInstance().getPlayerByID(id);
-            if (p == null)
+        if ( key.Equals( "readyTeam" ) && value.Equals( "True" ) ) {
+            UserHandler.Player p = UserHandler.getInstance().getPlayerByID( id );
+            if ( p == null )
                 return;
             p.readyToPlay = true;
-            if (UserHandler.getInstance().allPlayersReady() /*&& UserHandler.getInstance().gameType != UserHandler.GameType.NONE_SET*/) { //remove this comment for tournaments.
+            if ( UserHandler.getInstance().allPlayersReady() /*&& UserHandler.getInstance().gameType != UserHandler.GameType.NONE_SET*/) { //remove this comment for tournaments.
                 int gameType = -1; //-1 = none set yet, 1 = ffa, 2 = left & right teams. if two conflicting values (ignoring -1) found, do not start game.
-                foreach(UserHandler.Player pp in UserHandler.getInstance().players) {
-                    if (pp.teamType == UserHandler.TeamType.FFA) {
-                        if (gameType == -1)
+                foreach ( UserHandler.Player pp in UserHandler.getInstance().players ) {
+                    if ( pp.teamType == UserHandler.TeamType.FFA ) {
+                        if ( gameType == -1 )
                             gameType = 1;
-                        else if (gameType == 2)
+                        else if ( gameType == 2 )
                             return;
                     } else {
-                        if (gameType == -1)
+                        if ( gameType == -1 )
                             gameType = 2;
-                        else if (gameType == 1)
+                        else if ( gameType == 1 )
                             return;
                     }
                 }
-                var moveBoat = GameObject.Find("Main Camera").GetComponent<MoveToBoat>();
+                var moveBoat = GameObject.Find( "Main Camera" ).GetComponent<MoveToBoat>();
                 moveBoat.StartGame();
             }
         }
 
-        if ((key.Equals("gameMode0") || key.Equals("gameMode1") || key.Equals("gameMode2")) && value.Equals("True")) {
-            var moveBoat = GameObject.Find("Main Camera").GetComponent<MoveToBoat>();
-            switch (key) {
+        if ( (key.Equals( "gameMode0" ) || key.Equals( "gameMode1" ) || key.Equals( "gameMode2" )) && value.Equals( "True" ) ) {
+            var moveBoat = GameObject.Find( "Main Camera" ).GetComponent<MoveToBoat>();
+            switch ( key ) {
                 case "gameMode0":
                     UserHandler.getInstance().gameType = UserHandler.GameType.ONE_GAME;
-                    broadcastMessage("forceEnable", "gameMode0");
+                    broadcastMessage( "forceEnable", "gameMode0" );
                     break;
                 case "gameMode1":
                     UserHandler.getInstance().gameType = UserHandler.GameType.THREE_GAME;
-                    broadcastMessage("forceEnable", "gameMode1");
+                    broadcastMessage( "forceEnable", "gameMode1" );
                     break;
                 case "gameMode2":
                 default:
                     UserHandler.getInstance().gameType = UserHandler.GameType.FIVE_GAME;
-                    broadcastMessage("forceEnable", "gameMode2");
+                    broadcastMessage( "forceEnable", "gameMode2" );
                     break;
             }
-            if (UserHandler.getInstance().allPlayersReady()) {
+            if ( UserHandler.getInstance().allPlayersReady() ) {
                 moveBoat.StartGame();
             }
         }
 
-        if (key.Equals("gameMoveLeft") || key.Equals("gameMoveRight") || key.Equals("gameShootLeft") || key.Equals("gameShootRight")) {
-            UserHandler.Player p = UserHandler.getInstance().getPlayerByID(id);
-            var control = p.playerObject.GetComponent<shipController>();
-            if (key.Equals("gameMoveLeft")) {
-                control.isRotateLeft = value.Equals("True");
-                control.isRotateRight = false;
-            }
-            if (key.Equals("gameMoveRight")) {
-                control.isRotateLeft = false;
-                control.isRotateRight = value.Equals("True");
-            }
-            if (key.Equals("gameShootLeft")) {
-                control.fireLeft();
-            } else if (key.Equals("gameShootRight")) {
-                control.fireRight();
+        if ( key.Equals( "gameMoveLeft" ) || key.Equals( "gameMoveRight" ) || key.Equals( "gameShootLeft" ) || key.Equals( "gameShootRight" ) ) {
+            UserHandler.Player p = UserHandler.getInstance().getPlayerByID( id );
+            if ( p != null && p.playerObject ) {
+                var control = p.playerObject.GetComponent<shipController>();
+                if ( key.Equals( "gameMoveLeft" ) ) {
+                    control.isRotateLeft = value.Equals( "True" );
+                    control.isRotateRight = false;
+                }
+                if ( key.Equals( "gameMoveRight" ) ) {
+                    control.isRotateLeft = false;
+                    control.isRotateRight = value.Equals( "True" );
+                }
+                if ( key.Equals( "gameShootLeft" ) ) {
+                    control.fireLeft();
+                } else if ( key.Equals( "gameShootRight" ) ) {
+                    control.fireRight();
+                }
             }
         }
-        
+
 
         //used for when game is ready
         /*

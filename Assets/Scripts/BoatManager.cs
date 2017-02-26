@@ -93,7 +93,7 @@ public class BoatManager : MonoBehaviour {
 		}
 	}
 
-    bool CanStart() {
+    public bool CanStart() {
         var IsTeam = false;
         var IsSolo = false;
         foreach(var teamSelection in PlayersSelection.Values) {

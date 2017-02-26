@@ -32,16 +32,19 @@ public class GameDataManager : MonoBehaviour {
 
     public void RemovePlayer( int playerID ) {
         print(playerID);
-        UserHandler.getInstance().getPlayerByID(playerID).resetGame();
+        UserHandler.getInstance().playerEliminated(playerID, true);
         PlayersTeam.Remove( playerID );
 
         var oneIsAlive = false;
         var twoIsAlive = false;
-        foreach (var playerKey in PlayersTeam.Keys) {
-            if (PlayersTeam[playerKey] == TeamSelection.One) {
+        var someoneAlive = 0;
+        foreach (UserHandler.Player p in UserHandler.getInstance().players) {
+            if (p.playerObject != null && p.teamType == UserHandler.TeamType.LEFT) {
                 oneIsAlive = true;
-            } else if (PlayersTeam[playerKey] == TeamSelection.Two) {
+            } else if (p.playerObject != null && p.teamType == UserHandler.TeamType.RIGHT) {
                 twoIsAlive = true;
+            } else if (p.playerObject != null && p.teamType == UserHandler.TeamType.FFA) {
+                someoneAlive++;
             }
         }
         print(string.Format("OneIsAlive: {0}, TwoisAlive: {1}, PlayerTeamCount: {2}", oneIsAlive, twoIsAlive, PlayersTeam.Keys.Count));
@@ -53,7 +56,7 @@ public class GameDataManager : MonoBehaviour {
 			print( "Team Two WON" );
 			Camera.main.GetComponent<cameraController> ().endGame ();
 			StartCoroutine (ReturnToMenu ());
-        } else if (!oneIsAlive && !twoIsAlive && PlayersTeam.Keys.Count == 1) {
+        } else if (!oneIsAlive && !twoIsAlive && someoneAlive <= 1) {
             print( "Player someone WON" );
 			Camera.main.GetComponent<cameraController> ().endGame ();
 			StartCoroutine (ReturnToMenu ());
@@ -79,6 +82,10 @@ public class GameDataManager : MonoBehaviour {
         SetGameState( GameState.Menu );
         PlayersTeam.Clear();
         AirConsoleManager.instance.setController(0, true, "splash");
+        AirConsoleManager.instance.broadcastMessage("resetSelection", "");
+        foreach (UserHandler.Player p in UserHandler.getInstance().players) {
+            p.teamType = UserHandler.TeamType.FFA;
+        }
 		SceneManager.LoadScene ("MainMenu");
 	}
 

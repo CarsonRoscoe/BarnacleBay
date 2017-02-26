@@ -330,6 +330,7 @@ public class UserHandler {
         //meant to be package visiblity, required to be called by UserHandler
         public void outOfRound(bool outOf) {
             isOutOfRound = outOf;
+            playerObject = null;
         }
     }
 }

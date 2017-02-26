@@ -13,7 +13,7 @@ public class AirConsoleManager : MonoBehaviour {
 
     //used for determining player colors
     public enum PlayerColors { PINK, PURPLE, BLUE, TEAL, GREEN, LIME, YELLOW, ORANGE, RED, WHITE };
-    private int[] playerColorsCount = new int[10];
+    private int[] playerColorsCount = new int[8];
 
     public const int MAX_PLAYERS = 8;
 
@@ -254,7 +254,11 @@ public class AirConsoleManager : MonoBehaviour {
 
         if (key.Equals("gameMoveLeft") || key.Equals("gameMoveRight") || key.Equals("gameShootLeft") || key.Equals("gameShootRight")) {
             UserHandler.Player p = UserHandler.getInstance().getPlayerByID(id);
+            if (p == null || p.playerObject == null)
+                return;
             var control = p.playerObject.GetComponent<shipController>();
+            if (control == null)
+                return;
             if (key.Equals("gameMoveLeft")) {
                 control.isRotateLeft = value.Equals("True");
                 control.isRotateRight = false;

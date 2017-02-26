@@ -28,6 +28,13 @@ public class AirConsoleManager : MonoBehaviour {
 
     }
 
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            var moveBoat = GameObject.Find("Main Camera").GetComponent<MoveToBoat>();
+            moveBoat.StartGame();
+        }
+    }
+
     void OnConnect( int controllerID ) {
         if (UserHandler.getInstance().players.Count >= MAX_PLAYERS)
             return;
@@ -240,7 +247,7 @@ public class AirConsoleManager : MonoBehaviour {
         }
 
         if (key.Equals("gameMoveLeft") || key.Equals("gameMoveRight") || key.Equals("gameShootLeft") || key.Equals("gameShootRight")) {
-            //UserHandler.Player p = UserHandler.getInstance().getPlayerByID(id);
+            UserHandler.Player p = UserHandler.getInstance().getPlayerByID(id);
             var control = p.playerObject.GetComponent<shipController>();
             if (key.Equals("gameMoveLeft")) {
                 control.isRotateLeft = value.Equals("True");

@@ -15,7 +15,6 @@ table {
 	width: 100%;
 }
 
-/*
 #imgLoad1 {
 	display: none;
 	background-image: url("./images/ArrowButtonLeftDown.png");
@@ -29,7 +28,7 @@ table {
 #imgLoad3 {
 	display: none;
 	background-image: url("./images/StartPressed.png");
-}*/
+}
 
 
 html, body{
@@ -39,7 +38,11 @@ html, body{
 }
 
 
-input, button, submit, div.button { 
+#healthBar {
+	background-color: green;
+}
+
+input, button, submit, div.button, .container{ 
 	border:none; 
 	background-color: black;
     background-position: center bottom; 
@@ -52,6 +55,7 @@ input, button, submit, div.button {
 	align-items: center;
 	justify-content: center;
 } 
+
 /*
 input.active, button.active, submit.active, div.button.active { 
 	border: 3px solid black;
@@ -107,7 +111,7 @@ input.active, button.active, submit.active, div.button.active {
 	text-align: center;
 }
 
-.topSection {
+/*.topSection {
 	height: 70%;
 	max-height: 70%;
 }
@@ -115,7 +119,7 @@ input.active, button.active, submit.active, div.button.active {
 .bottomSection {
 	height: 30%;
 	max-height: 30%;
-}
+}*/
 
 p.displayText {
 	font-size: 32px;

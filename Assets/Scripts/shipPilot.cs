@@ -13,10 +13,10 @@ public class shipPilot : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	/*void Update () {
 		if (Input.GetKey("w")){
 		//	am ["CannonToLeft"].speed = -1;
-			am.Play ("CannonToLeft");
+			//am.Play ("CannonToLeft");
 		}
 		if (Input.GetKey("a")){
 			shipControl.rotateTowards(-1,0);
@@ -27,6 +27,5 @@ public class shipPilot : MonoBehaviour {
 		if (Input.GetKey("d")){
 			shipControl.rotateTowards(1,0);
 		}
-
-	}
+	}*/
 }

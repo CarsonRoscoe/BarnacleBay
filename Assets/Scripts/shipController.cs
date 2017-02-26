@@ -52,7 +52,7 @@ public class shipController : MonoBehaviour {
 		canShoot = true;
 		rb = GetComponent<Rigidbody>();
 		anim = this.GetComponent<Animation>();
-		Health = 5;
+		_health = 5;
 	}
 
 	public void rotateTowards( float x, float y ) {

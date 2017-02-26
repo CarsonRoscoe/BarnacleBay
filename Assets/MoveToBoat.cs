@@ -68,8 +68,10 @@ public class MoveToBoat : MonoBehaviour {
     }
 
 	public void StartGame() {
-		AudioManager.instance.playSound (AudioManager.SFXID.ONBUTTONCLICK);
-        StartCoroutine( BurnPaperThenStart(2f) );
+        if (BoatManager.instance.CanStart()) {
+		    AudioManager.instance.playSound (AudioManager.SFXID.ONBUTTONCLICK);
+            StartCoroutine( BurnPaperThenStart(2f) );
+        }
     }
 
     IEnumerator BurnPaperThenStart(float seconds) {

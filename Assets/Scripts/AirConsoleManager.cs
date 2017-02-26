@@ -58,17 +58,20 @@ public class AirConsoleManager : MonoBehaviour {
         }
     }
 
-    public void setController(int deviceID, bool broadcast = false) {
+    public void setController(int deviceID, bool broadcast = false, string control = null) {
         string sceneName = SceneManager.GetActiveScene().name;
         string controller = "splash";
-
-        if (sceneName.Equals("MainMenu")) {
-            if (!BoatManager.instance.InTeamSelectMode)
-                controller = "splash";
-            else
-                controller = "menu";
-        } else if (sceneName.Equals("GameScene")) {
-            controller = "game";
+        if (control == null) {
+            if (sceneName.Equals("MainMenu")) {
+                if (!BoatManager.instance.InTeamSelectMode)
+                    controller = "splash";
+                else
+                    controller = "menu";
+            } else if (sceneName.Equals("GameScene")) {
+                controller = "game";
+            }
+        } else {
+            controller = control;
         }
 
         if (broadcast)

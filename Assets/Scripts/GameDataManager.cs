@@ -78,6 +78,7 @@ public class GameDataManager : MonoBehaviour {
 		yield return new WaitForSeconds (8f);
         SetGameState( GameState.Menu );
         PlayersTeam.Clear();
+        AirConsoleManager.instance.setController(0, true, "splash");
 		SceneManager.LoadScene ("MainMenu");
 	}
 

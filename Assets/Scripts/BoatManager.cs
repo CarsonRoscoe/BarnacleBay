@@ -58,7 +58,7 @@ public class BoatManager : MonoBehaviour {
 		var bottomHeight = bottom.anchoredPosition.y;
 		var height = Mathf.Abs (topHeight - bottomHeight);
 		var centerHeight = center.transform.position.y;
-		var increase = height / (playerCount - 2);
+		var increase = height / (playerCount);
 		int[] positions = new int[playerCount];
 		var actualHeight = increase * playerCount;
 
@@ -136,7 +136,11 @@ public class BoatManager : MonoBehaviour {
 		}
 	}
 
-    public void IsActiveUpdatingBoats(bool keepUpdatingBoats) {
+    public bool IsActiveUpdatingBoats() {
+        return m_updateBoats;
+    }
+
+    public void SetActiveUpdatingBoats(bool keepUpdatingBoats) {
         m_updateBoats = keepUpdatingBoats;
     }
 

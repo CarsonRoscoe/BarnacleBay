@@ -18,6 +18,7 @@ public class GameDataManager : MonoBehaviour {
         if ( instance == null ) {
             instance = this;
             DontDestroyOnLoad( gameObject );
+            Application.targetFrameRate = 30;
         }
         else {
             Destroy( this );

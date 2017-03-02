@@ -69,7 +69,7 @@ public class MoveToBoat : MonoBehaviour {
     }
 
 	public void StartGame() {
-        if (BoatManager.instance.CanStart()) {
+        if (BoatManager.instance.CanStart() && BoatManager.instance.IsActiveUpdatingBoats()) {
 		    AudioManager.instance.playSound (AudioManager.SFXID.ONBUTTONCLICK);
             StartCoroutine( BurnPaperThenStart(2f) );
         }
@@ -78,7 +78,7 @@ public class MoveToBoat : MonoBehaviour {
     IEnumerator BurnPaperThenStart(float seconds) {
         var currentTime = 0f;
         var material = Paper.GetComponent<Image>().material;
-        BoatManager.instance.IsActiveUpdatingBoats(false);
+        BoatManager.instance.SetActiveUpdatingBoats(false);
 		BoatManager.instance.SetActiveBoatSprites (false);
         while(currentTime < seconds ) {
             material.SetFloat( "_Threshold", currentTime / seconds );

@@ -26,6 +26,7 @@ public class MoveToBoat : MonoBehaviour {
         logoStartPosition = logoRectTransform.position;
         paperRectTransform = Paper.GetComponent<RectTransform>();
         paperRectTransform.localScale = Vector3.one.WithY(0f);
+        GameObject.Find("Boat").GetComponent<Animator>().speed = 0.5f;
     }
 
     void Update() {
@@ -77,6 +78,7 @@ public class MoveToBoat : MonoBehaviour {
     IEnumerator BurnPaperThenStart(float seconds) {
         var currentTime = 0f;
         var material = Paper.GetComponent<Image>().material;
+        BoatManager.instance.IsActiveUpdatingBoats(false);
 		BoatManager.instance.SetActiveBoatSprites (false);
         while(currentTime < seconds ) {
             material.SetFloat( "_Threshold", currentTime / seconds );

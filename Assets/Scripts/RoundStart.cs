@@ -19,6 +19,7 @@ public class RoundStart : MonoBehaviour {
         var i = 0;
 	    foreach(UserHandler.Player p in UserHandler.getInstance().players) {
             GameObject ship = Instantiate<GameObject>( Ship, Spawns[i], Quaternion.identity );
+            ship.transform.position = new Vector3(ship.transform.position.x, 1.1f, ship.transform.position.z);
             if ( ShipMaterials.Length > 0 ) {
                 foreach ( var renderer in ship.GetComponentsInChildren<Renderer>() ) {
                     //Name of piece with renderer. Change after gamejam cause hack

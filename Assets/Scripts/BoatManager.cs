@@ -30,6 +30,7 @@ public class BoatManager : MonoBehaviour {
 	}
 
     public Dictionary<int, TeamSelection> PlayersSelection = new Dictionary<int, TeamSelection>();
+    private bool m_updateBoats = true;
 
 	void Start() {
 		AudioManager.instance.playGameMusic( AudioManager.MusicID.MENULOOP );
@@ -45,11 +46,11 @@ public class BoatManager : MonoBehaviour {
     }
 
 	void Update() {
-		UpdateBoatPositions ();
+        if (m_updateBoats)
+		    UpdateBoatPositions ();
 	}
 
 	public void UpdateBoatPositions() {
-		var slot = 0;
 		var deviceIDs = AirConsole.instance.GetActivePlayerDeviceIds;
 		SetActiveBoatSprites (false);
         var playerCount = UserHandler.getInstance().players.Count;
@@ -57,7 +58,7 @@ public class BoatManager : MonoBehaviour {
 		var bottomHeight = bottom.anchoredPosition.y;
 		var height = Mathf.Abs (topHeight - bottomHeight);
 		var centerHeight = center.transform.position.y;
-		var increase = height / (MaxPlayers - 1);
+		var increase = height / (playerCount - 2);
 		int[] positions = new int[playerCount];
 		var actualHeight = increase * playerCount;
 
@@ -134,5 +135,9 @@ public class BoatManager : MonoBehaviour {
 			ship.gameObject.SetActive (isActive);
 		}
 	}
+
+    public void IsActiveUpdatingBoats(bool keepUpdatingBoats) {
+        m_updateBoats = keepUpdatingBoats;
+    }
 
 }

@@ -202,6 +202,9 @@ public class shipController : MonoBehaviour {
         testing.SetBool( "isDead", true );
         speed = 0;
         Instantiate( explosion, this.transform.position, Quaternion.identity );
+        GetComponent<CapsuleCollider>().height = 0f;
+        var boxCollider = GetComponent<BoxCollider>();
+        boxCollider.size = new Vector3(boxCollider.size.x, boxCollider.size.y, boxCollider.size.z / 4);
         Camera.main.GetComponent<cameraController>().endGame();
         Destroy( gameObject, 6f );
         Camera.main.GetComponent<cameraController>().updateValues();

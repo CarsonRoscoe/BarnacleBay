@@ -332,5 +332,11 @@ public class UserHandler {
             isOutOfRound = outOf;
             playerObject = null;
         }
+
+        public void addToScore(int points)
+        {
+            sessionScore += points;
+            gameScore += points;
+        }
     }
 }

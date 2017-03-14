@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using NDream.AirConsole;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,12 +9,10 @@ public class PlayerHUDHandler : MonoBehaviour {
     public static PlayerHUDHandler instance;
 
     public GameObject[] slots;
+    public Transform ScoringPrefab;
 
     void Awake() {
-        if (instance == null)
-            instance = this;
-        else
-            Destroy(this);
+        instance = this;
     }
 
     void Start() {
@@ -21,16 +21,25 @@ public class PlayerHUDHandler : MonoBehaviour {
 
     public void loadList() {
         int slot = 0;
-        /*foreach (var p in AirConsoleManager.instance.players) {
+        foreach (var player in UserHandler.getInstance().players.OrderByDescending(x => x.gameScore)) {
             slots[slot].SetActive(true);
-            slots[slot].GetComponentInChildren<Text>().text = p.name;
-            slots[slot].GetComponent<Image>().color = PlayerData.getColorData(p.color);
+            slots[slot].GetComponentInChildren<Text>().text = AirConsole.instance.GetNickname(player.deviceID);
+            slots[slot].GetComponent<Image>().color = player.color;
             slot++;
             if (slot >= 8)
                 break;
-        }*/
-        for (var i = slot; i < 8; i++) {
-            slots[i].SetActive(false);
         }
+    }
+
+    public void CreateScore(int score, GameObject boat) {
+        foreach(var slot in slots) {
+            slot.SetActive(false);
+        }
+        var scoring = Instantiate(ScoringPrefab, boat.transform.position.WithY(3), Quaternion.identity);
+        var scoringMesh = scoring.GetComponent<TextMesh>();
+        scoringMesh.text = "+" + score;
+        scoringMesh.color = UserHandler.getInstance().getPlayerByID(boat.GetComponent<shipController>().PlayerID).color;
+        scoring.localScale = new Vector3(10, 10, 10);
+        loadList();
     }
 }

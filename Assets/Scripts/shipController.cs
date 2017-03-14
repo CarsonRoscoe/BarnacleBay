@@ -36,6 +36,8 @@ public class shipController : MonoBehaviour {
     public CannonBall cb2;
     public Animator testing;
     public bool canShoot;
+    private Dictionary<int, int> damageByPlayer;
+    private int lastHitByPlayer;
     public int Health {
         get {
             return _health;
@@ -54,6 +56,7 @@ public class shipController : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
         anim = this.GetComponent<Animation>();
         _health = 5;
+        damageByPlayer = new Dictionary<int, int>();
     }
 
     public void rotateTowards( float x, float y ) {
@@ -172,6 +175,12 @@ public class shipController : MonoBehaviour {
         if ( collision.collider.tag == "CannonBall" ) {
             //  AudioManager.instance.playSound( AudioManager.SFXID.CANNONIMPACT );
             var cannonBall = collision.gameObject.GetComponent<CannonBall>();
+            var attackingPlayer = cannonBall.Owner.GetComponent<shipController>().PlayerID;
+            lastHitByPlayer = attackingPlayer;
+            if (!damageByPlayer.ContainsKey(lastHitByPlayer)) {
+                damageByPlayer.Add(lastHitByPlayer, 0);
+            }
+            damageByPlayer[lastHitByPlayer]++;
             Health--;
             Instantiate( explosion, collision.contacts.First().point, Quaternion.identity );
             Destroy( collision.gameObject );
@@ -198,6 +207,22 @@ public class shipController : MonoBehaviour {
     }
 
     void Die() {
+        //Update scores
+        var lastHitter = UserHandler.getInstance().getPlayerByID(lastHitByPlayer);
+        var mostDamager = UserHandler.getInstance().getPlayerByID(damageByPlayer.Aggregate((l, r) => l.Value > r.Value ? l : r).Key);
+        
+        if (lastHitter == mostDamager) {
+            lastHitter.addToScore(3);
+            PlayerHUDHandler.instance.CreateScore(3, lastHitter.playerObject);
+            //Visually make +3 appear
+        } else {
+            lastHitter.addToScore(1);
+            PlayerHUDHandler.instance.CreateScore(1, lastHitter.playerObject);
+            mostDamager.addToScore(1);
+            PlayerHUDHandler.instance.CreateScore(1, mostDamager.playerObject);
+        }
+
+        //Kill self
         GameDataManager.instance.RemovePlayer( PlayerID );
         testing.SetBool( "isDead", true );
         speed = 0;

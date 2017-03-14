@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public enum GameState { Menu, InGame }
 
@@ -78,6 +79,8 @@ public class GameDataManager : MonoBehaviour {
     }
 
 	IEnumerator ReturnToMenu() {
+        //TODO: Replace the get player logic with a list of players not first one that didnt lose
+        GameObject.Find("WinnerPanel").GetComponent<WinnerPanelHandler>().PlayerWon(UserHandler.getInstance().players.First(x => x.playerObject != null));
 		yield return new WaitForSeconds (8f);
         SetGameState( GameState.Menu );
         PlayersTeam.Clear();

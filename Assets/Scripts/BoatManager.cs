@@ -5,6 +5,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/*
+2 = 0/1 == 0.5
+3 = 0/1/2 == 1 
+4 = 0/1/2/3 == 1.5
+5 = 0/1/2/3/4 == 2
+6 = 0/1/2/3/4/5 == 2.5
+7 = 0/1/2/3/4/5/6 == 3
+8 = 0/1/2/3/4/5/6/7 == 3.5
+*/
+
 public class BoatManager : MonoBehaviour {
 	public static BoatManager instance;
 	public int MaxPlayers = 8;
@@ -51,37 +61,32 @@ public class BoatManager : MonoBehaviour {
 	}
 
 	public void UpdateBoatPositions() {
-		var deviceIDs = AirConsole.instance.GetActivePlayerDeviceIds;
 		SetActiveBoatSprites (false);
         var playerCount = UserHandler.getInstance().players.Count;
-		var topHeight = top.anchoredPosition.y;
-		var bottomHeight = bottom.anchoredPosition.y;
-		var height = Mathf.Abs (topHeight - bottomHeight);
+		var height = Mathf.Abs (top.anchoredPosition.y - bottom.anchoredPosition.y);
 		var centerHeight = center.transform.position.y;
-		var increase = height / (playerCount);
 		int[] positions = new int[playerCount];
-		var actualHeight = increase * playerCount;
 
         var i = 0;
-		foreach (UserHandler.Player p in UserHandler.getInstance().players) {
-			var zeroIndex = (float)playerCount / 2f;
-			if (zeroIndex % 2 == 0)
+		foreach (UserHandler.Player player in UserHandler.getInstance().players) {
+			var zeroIndex = Mathf.Floor(playerCount / 2f);
+			if (playerCount % 2 == 0)
 				zeroIndex -= .5f;
 			var myRelativeIndex = i - zeroIndex;
-			var yPos = myRelativeIndex * increase;
+			var yPos = myRelativeIndex * height / playerCount;
 			var xPos = 0f;
-			switch (p.teamType) {
+			switch (player.teamType) {
 			case UserHandler.TeamType.LEFT:
 				xPos = left.transform.position.x;
-                SetPlayerTeamSelection(AirConsole.instance.ConvertDeviceIdToPlayerNumber(p.deviceID), TeamSelection.One);
+                SetPlayerTeamSelection(AirConsole.instance.ConvertDeviceIdToPlayerNumber(player.deviceID), TeamSelection.One);
 				break;
                 case UserHandler.TeamType.FFA:
-                    xPos = center.transform.position.x;
-                SetPlayerTeamSelection(AirConsole.instance.ConvertDeviceIdToPlayerNumber(p.deviceID), TeamSelection.FreeForAll);
+                xPos = center.transform.position.x;
+                SetPlayerTeamSelection(AirConsole.instance.ConvertDeviceIdToPlayerNumber(player.deviceID), TeamSelection.FreeForAll);
 				break;
                 case UserHandler.TeamType.RIGHT:
-                    xPos = right.transform.position.x;
-                SetPlayerTeamSelection(AirConsole.instance.ConvertDeviceIdToPlayerNumber(p.deviceID), TeamSelection.Two);
+                xPos = right.transform.position.x;
+                SetPlayerTeamSelection(AirConsole.instance.ConvertDeviceIdToPlayerNumber(player.deviceID), TeamSelection.Two);
 				break;
 			default:
 				break;

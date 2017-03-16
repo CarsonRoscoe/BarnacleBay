@@ -25,7 +25,6 @@ public class AirConsoleManager : MonoBehaviour {
         AirConsole.instance.onConnect += OnConnect;
         AirConsole.instance.onMessage += OnMessage;
         AirConsole.instance.onDisconnect += OnDisconnect;
-
     }
 
     void Update() {

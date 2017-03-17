@@ -20,6 +20,7 @@ public class shipController : MonoBehaviour {
     public float turnRate = 3f;
     private int amountLeaned = 0;
     private int maxLeaned = 30;
+    private float timeTilNextShot = 2.0f;
     public Transform CannonBall;
     public Transform explosion;
     public Animation anim;
@@ -57,6 +58,12 @@ public class shipController : MonoBehaviour {
         anim = this.GetComponent<Animation>();
         _health = 5;
         damageByPlayer = new Dictionary<int, int>();
+
+        if (GameDataManager.instance.GameMode == GameMode.SuddenDeath) {
+            speed *= 1.5f;
+            timeTilNextShot *= 0.75f;
+            Health = 1;
+        }
     }
 
     public void rotateTowards( float x, float y ) {
@@ -136,7 +143,7 @@ public class shipController : MonoBehaviour {
     }
 
     IEnumerator DelayShooting() {
-        yield return new WaitForSeconds( 2f );
+        yield return new WaitForSeconds( timeTilNextShot );
         canShoot = true;
     }
 

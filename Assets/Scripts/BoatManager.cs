@@ -109,6 +109,9 @@ public class BoatManager : MonoBehaviour {
                 IsTeam = true;
             }
         }
+        if (!(IsTeam && IsSolo)) {
+            GameDataManager.instance.GameType = IsTeam ? GameTeamType.Team : GameTeamType.FFA;
+        }
         return !(IsTeam && IsSolo);
     }
 

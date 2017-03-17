@@ -36,6 +36,9 @@ public class cameraController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (UserHandler.getInstance().playersLeft == 0) {
+            return;
+        }
 		largeX = -10000000;
 		largeZ = -10000000;
 		smallX = 10000000;
@@ -60,7 +63,7 @@ public class cameraController : MonoBehaviour {
 		Vector3 temp = this.transform.position;
 		temp.x = ((largeX - smallX) / 2) + smallX + offsetX;
 		temp.z = ((largeZ - smallZ) / 2.3f) + smallZ + offsetZ;
-		if (endG) {
+		if (endG && UserHandler.getInstance().playersLeft != 0) {
 			float distCov = (Time.time - startTime) * speed;
 			journeyLength = Vector3.Distance (startPos.position, temp);
 			float fracJourney = distCov / journeyLength;

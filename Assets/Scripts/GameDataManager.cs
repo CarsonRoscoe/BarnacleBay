@@ -6,12 +6,17 @@ using UnityEngine.SceneManagement;
 using System.Linq;
 
 public enum GameState { Menu, InGame }
+public enum GameMode { Normal, SuddenDeath }
+public enum GameTeamType { FFA, Team }
 
 public class GameDataManager : MonoBehaviour {
+    private const float TIME_TO_WAIT_BETWEEN_SCRENE_TRANSITIONS = 6.0f;
     public static GameDataManager instance;
 
     private GameState _gameState = GameState.Menu;
     public GameState GameState { get { return _gameState; } }
+    public GameMode GameMode = GameMode.Normal;
+    public GameTeamType GameType = GameTeamType.FFA;
 
     private Dictionary<int, TeamSelection> PlayersTeam = new Dictionary<int, TeamSelection>();
 
@@ -52,16 +57,42 @@ public class GameDataManager : MonoBehaviour {
         if (oneIsAlive && !twoIsAlive) {
             print( "Team One WON" );
 			Camera.main.GetComponent<cameraController> ().endGame ();
-			StartCoroutine (ReturnToMenu ());
+            DetermineEndGame();
         } else if (!oneIsAlive && twoIsAlive) {
 			print( "Team Two WON" );
 			Camera.main.GetComponent<cameraController> ().endGame ();
-			StartCoroutine (ReturnToMenu ());
+            DetermineEndGame();
         } else if (!oneIsAlive && !twoIsAlive && someoneAlive <= 1) {
             print( "Player someone WON" );
 			Camera.main.GetComponent<cameraController> ().endGame ();
-			StartCoroutine (ReturnToMenu ());
+            DetermineEndGame();
         }
+    }
+
+    private void DetermineEndGame() {
+        var userHandler = UserHandler.getInstance();
+        userHandler.GameCount++;
+        
+        if (userHandler.GameCount >= (int)userHandler.gameType) {
+            List<UserHandler.Player> winners;
+            if (userHandler.TryGetTiedWinners(out winners)) {
+                TiedWinners = winners;
+                GameMode = GameMode.SuddenDeath;
+                StartCoroutine(StartNextRound());
+            } else {
+                GameMode = GameMode.Normal;
+			    StartCoroutine (ReturnToMenu ());
+            }
+        } else {
+            GameMode = GameMode.Normal;
+            StartCoroutine(StartNextRound());
+        }
+    }
+
+    private IEnumerator StartNextRound() {
+		yield return new WaitForSeconds (TIME_TO_WAIT_BETWEEN_SCRENE_TRANSITIONS);
+        ReadyPlayers(BoatManager.instance.PlayersSelection);
+		SceneManager.LoadScene( "GameScene" );
     }
     
 
@@ -81,7 +112,7 @@ public class GameDataManager : MonoBehaviour {
 	IEnumerator ReturnToMenu() {
         //TODO: Replace the get player logic with a list of players not first one that didnt lose
         GameObject.Find("WinnerPanel").GetComponent<WinnerPanelHandler>().PlayerWon(UserHandler.getInstance().players.First(x => x.playerObject != null));
-		yield return new WaitForSeconds (8f);
+		yield return new WaitForSeconds (TIME_TO_WAIT_BETWEEN_SCRENE_TRANSITIONS);
         SetGameState( GameState.Menu );
         PlayersTeam.Clear();
         AirConsoleManager.instance.setController(0, true, "splash");
@@ -107,4 +138,21 @@ public class GameDataManager : MonoBehaviour {
 			AudioManager.instance.playSound (AudioManager.SFXID.WAVES);
 		}
 	}
+
+    private List<UserHandler.Player> _tiedWinners;
+    public List<UserHandler.Player> TiedWinners {
+        get {
+            if (GameMode != GameMode.SuddenDeath) {
+                _tiedWinners.Clear();
+            }
+            return _tiedWinners;
+        }
+        set {
+            if (GameMode == GameMode.SuddenDeath) {
+                _tiedWinners = value;
+            } else {
+                _tiedWinners.Clear();
+            }
+        }
+    }
 }

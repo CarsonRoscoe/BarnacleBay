@@ -12,15 +12,21 @@ public class UserHandler {
     //enum for getting which type of score
     public enum ScoreType { GAME, SESSION, TOTAL_GAMES };
 
-    public enum GameType { ONE_GAME, THREE_GAME, FIVE_GAME, NONE_SET };
+    public enum GameType { ONE_GAME = 1, THREE_GAME = 3, FIVE_GAME = 5, NONE_SET = 0 };
 
     public enum TeamType { LEFT, FFA, RIGHT };
 
-    public GameType gameType = GameType.NONE_SET;
+    public GameType gameType = GameType.THREE_GAME;
+
+    public int GameCount = 0;
 
     //player count left in the round
     public int playersLeft {
         get {
+            List<Player> winners;
+            if (TryGetTiedWinners(out winners)) {
+                //If there is a tie, the winning players will be stored into the winners object
+            }
             return _playersLeft;
         }
         private set {
@@ -255,6 +261,27 @@ public class UserHandler {
             q.sessionScore += q.gameScore;
         }
         return getHighestScore(ScoreType.SESSION);
+    }
+
+    public bool TryGetTiedWinners(out List<Player> winners) {
+        var highestScore = 0;
+        winners = new List<Player>();
+        if (GameDataManager.instance.GameType == GameTeamType.FFA) {
+            foreach(var player in players) {
+                if (player.sessionScore > highestScore) {
+                    winners.Clear();
+                    highestScore = player.sessionScore;
+                }
+
+                if (player.sessionScore == highestScore) {
+                    winners.Add(player);
+                }
+            }
+             return (winners.Count > 1);
+        } else {
+            //TODO: Add team logic
+            return false;
+        }
     }
 
     /*

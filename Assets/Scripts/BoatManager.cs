@@ -115,15 +115,15 @@ public class BoatManager : MonoBehaviour {
         return !(IsTeam && IsSolo);
     }
 
-	public void SetPlayerTeamSelection(int playerID, int teamSelectionDirection) {
-		SetPlayerTeamSelection (playerID, (TeamSelection)teamSelectionDirection);
+	public void SetPlayerTeamSelection(int deviceID, int teamSelectionDirection) {
+		SetPlayerTeamSelection (deviceID, (TeamSelection)teamSelectionDirection);
 	}
 
-    public void SetPlayerTeamSelection(int playerID, TeamSelection teamSelection) {
-        if (!PlayersSelection.ContainsKey(playerID)) {
-            PlayersSelection.Add( playerID, teamSelection );
+    public void SetPlayerTeamSelection(int deviceID, TeamSelection teamSelection) {
+        if (!PlayersSelection.ContainsKey(deviceID)) {
+            PlayersSelection.Add( deviceID, teamSelection );
         } else {
-            PlayersSelection[playerID] = teamSelection;
+            PlayersSelection[deviceID] = teamSelection;
         }
     }
 

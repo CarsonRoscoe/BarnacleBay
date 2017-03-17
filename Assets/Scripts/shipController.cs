@@ -43,7 +43,7 @@ public class shipController : MonoBehaviour {
         get {
             return _health;
         }
-        private set {
+        set {
             _health = value;
             AirConsoleManager.instance.updateHealth( PlayerID, value );
             if ( _health == 0 ) {
@@ -215,18 +215,33 @@ public class shipController : MonoBehaviour {
 
     void Die() {
         //Update scores
-        var lastHitter = UserHandler.getInstance().getPlayerByID(lastHitByPlayer);
-        var mostDamager = UserHandler.getInstance().getPlayerByID(damageByPlayer.Aggregate((l, r) => l.Value > r.Value ? l : r).Key);
-        
-        if (lastHitter == mostDamager) {
+        UserHandler.Player lastHitter = null;
+        UserHandler.Player mostDamager = null;
+        if (damageByPlayer.Count > 0)
+        {
+            mostDamager = UserHandler.getInstance().getPlayerByID(damageByPlayer.Aggregate((l, r) => l.Value > r.Value ? l : r).Key);
+        }
+        if (lastHitByPlayer != -1)
+        {
+            lastHitter = UserHandler.getInstance().getPlayerByID(lastHitByPlayer);
+        }
+
+
+        if (lastHitter == mostDamager && lastHitter != null) {
             lastHitter.addToScore(3);
             PlayerHUDHandler.instance.CreateScore(3, lastHitter.playerObject);
             //Visually make +3 appear
         } else {
-            lastHitter.addToScore(1);
-            PlayerHUDHandler.instance.CreateScore(1, lastHitter.playerObject);
-            mostDamager.addToScore(1);
-            PlayerHUDHandler.instance.CreateScore(1, mostDamager.playerObject);
+            if (lastHitter != null)
+            {
+                lastHitter.addToScore(1);
+                PlayerHUDHandler.instance.CreateScore(1, lastHitter.playerObject);
+            }
+            if (mostDamager != null)
+            {
+                mostDamager.addToScore(1);
+                PlayerHUDHandler.instance.CreateScore(1, mostDamager.playerObject);
+            }
         }
 
         //Kill self

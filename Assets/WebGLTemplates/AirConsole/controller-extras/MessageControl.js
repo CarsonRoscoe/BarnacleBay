@@ -6,7 +6,7 @@ var buttons = {
 	ready: null,
 	readyLeft: null,
 	readyRight: null,
-	readyTeam: null,
+	//readyTeam: null,
     gameMoveLeft: null,
 	gameMoveRight: null,
 	gameShootLeft: null,
@@ -38,7 +38,7 @@ init = function() {
 	buttons.ready = document.getElementById("ready");
 	buttons.readyLeft = document.getElementById("readyLeft");
 	buttons.readyRight = document.getElementById("readyRight");
-	buttons.readyTeam = document.getElementById("readyTeam");
+	//buttons.readyTeam = document.getElementById("readyTeam");
 	buttons.gameMoveLeft = document.getElementById("gameMoveLeft");
     buttons.gameMoveRight = document.getElementById("gameMoveRight");
 	buttons.gameShootLeft = document.getElementById("gameShootLeft");
@@ -57,7 +57,7 @@ init = function() {
 	buttons["ready"] = assignNewListeners(buttons["ready"], 3);
 	buttons["readyLeft"] = assignNewListeners(buttons["readyLeft"], 3);
 	buttons["readyRight"] = assignNewListeners(buttons["readyRight"], 3);
-	buttons["readyTeam"] = assignNewListeners(buttons["readyTeam"], 4);
+	//buttons["readyTeam"] = assignNewListeners(buttons["readyTeam"], 4);
 	buttons["gameMoveLeft"] = assignNewListeners(buttons["gameMoveLeft"], -1);
 	buttons["gameMoveRight"] = assignNewListeners(buttons["gameMoveRight"], -1);
 	buttons["gameShootLeft"] = assignNewListeners(buttons["gameShootLeft"], -1);

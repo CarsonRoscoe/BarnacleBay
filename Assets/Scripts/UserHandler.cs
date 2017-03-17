@@ -73,6 +73,7 @@ public class UserHandler {
         if (pos != -1) {
             players[pos].outOfRound(true);
             players.RemoveAt(pos);
+
             return true;
         }
         return false;

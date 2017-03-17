@@ -17,22 +17,22 @@ public class RoundStart : MonoBehaviour {
         GameDataManager.instance.SetGameState (GameState.InGame);
         Spawns.Shuffle();
         UserHandler.getInstance().resetPlayers();
-        var i = 0;
         var tiedPlayerIDs = GameDataManager.instance.GameMode == GameMode.SuddenDeath ? GameDataManager.instance.TiedWinners : new List<UserHandler.Player>();
         
 	    foreach(UserHandler.Player p in UserHandler.getInstance().players) {
+            var boatIndex = AirConsoleManager.instance.getIndexByColor(p.color);
             var notATieSoEveryonePlays = tiedPlayerIDs.Count == 0;
             var pIsATiedPlayerToPlay = tiedPlayerIDs.Contains(p);
     
             if (notATieSoEveryonePlays || pIsATiedPlayerToPlay) {
-                GameObject ship = Instantiate<GameObject>( Ship, Spawns[i], Quaternion.identity );
+                GameObject ship = Instantiate<GameObject>( Ship, Spawns[boatIndex], Quaternion.identity );
                 ship.transform.position = new Vector3(ship.transform.position.x, 1.1f, ship.transform.position.z);
                 if ( ShipMaterials.Length > 0 ) {
                     foreach ( var renderer in ship.GetComponentsInChildren<Renderer>() ) {
                         //Name of piece with renderer. Change after gamejam cause hack
                         if ( renderer.gameObject.name == "polySurface1" ) {
                             var materials = renderer.materials;
-                            renderer.materials = new Material[] { ShipMaterials[i], ShipMaterials[i], ShipMaterials[i], ShipMaterials[i] };
+                            renderer.materials = new Material[] { ShipMaterials[boatIndex], ShipMaterials[boatIndex], ShipMaterials[boatIndex], ShipMaterials[boatIndex] };
                             print( "Material change" );
                         }
                     }
@@ -41,7 +41,6 @@ public class RoundStart : MonoBehaviour {
                 p.playerObject = ship;
                 GameDataManager.instance.SetPlayer( p.deviceID, ship.gameObject );
             }
-            i++;
         }
 
 		GameObject.Find("Main Camera").GetComponent<cameraController> ().updateValues ();

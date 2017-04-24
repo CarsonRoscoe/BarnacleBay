@@ -26,7 +26,7 @@ public class MoveToBoat : MonoBehaviour {
         logoStartPosition = logoRectTransform.position;
         paperRectTransform = Paper.GetComponent<RectTransform>();
         paperRectTransform.localScale = Vector3.one.WithY(0f);
-        GameObject.Find("Boat").GetComponent<Animator>().speed = 0.5f;
+        GameObject.Find("RowRowRow").GetComponent<Animator>().speed = 0.5f;
     }
 
     void Update() {
@@ -49,6 +49,7 @@ public class MoveToBoat : MonoBehaviour {
                 transform.parent = NewParent;
                 amount = 0;
                 moving = false;
+                GameObject.Find("RowRowRow").GetComponent<Animator>().speed = 0f;
             }
         }
     }

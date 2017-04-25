@@ -18,6 +18,7 @@ public class MoveToBoat : MonoBehaviour {
     private float amount = 0;
     private Vector3 logoStartPosition;
     private Vector2 logoStartSize;
+    
 
 	void Start() {
 		Paper.GetComponent<Image>().material.SetFloat( "_Threshold", 0.0f );
@@ -70,9 +71,12 @@ public class MoveToBoat : MonoBehaviour {
     }
 
 	public void StartGame() {
-        if (BoatManager.instance.CanStart() && BoatManager.instance.IsActiveUpdatingBoats()) {
+        var canStartResult = BoatManager.instance.CanStart();
+        if (canStartResult == BoatManager.CanStartResult.CanStart && BoatManager.instance.IsActiveUpdatingBoats()) {
 		    AudioManager.instance.playSound (AudioManager.SFXID.ONBUTTONCLICK);
             StartCoroutine( BurnPaperThenStart(2f) );
+        } else {
+            ShowErrorMessage(canStartResult);
         }
     }
 
@@ -92,7 +96,48 @@ public class MoveToBoat : MonoBehaviour {
 			image.gameObject.SetActive (false);
 		}
         GameDataManager.instance.ReadyPlayers(BoatManager.instance.PlayersSelection);
+        ToolTipManager.instance = null;
 		SceneManager.LoadScene( "GameScene" );
         //Go to next scene
+    }
+
+    private void ShowErrorMessage(BoatManager.CanStartResult startResult) {
+        var titleResult = string.Empty;
+        var messageResult = string.Empty;
+        switch( startResult ) {
+            case BoatManager.CanStartResult.NotEnoughPlayers:
+                titleResult = "Not Enough Players";
+                messageResult = "This game is a 2 to 8 player game.";
+                break;
+            case BoatManager.CanStartResult.TooManyPlayers:
+                titleResult = "Too Many Players";
+                messageResult = "This game is a 2 to 8 player game.";
+                break;
+            case BoatManager.CanStartResult.NoPlayersTeamOne:
+                titleResult = "No Players On Team One";
+                messageResult = "When playing team vs team, each team needs at least one player.";
+                break;
+            case BoatManager.CanStartResult.NoPlayersTeamTwo:
+                titleResult = "No Players On Team Two";
+                messageResult = "When playing team vs team, each team needs at least one player.";
+                break;
+            case BoatManager.CanStartResult.FFAAndTeam:
+                titleResult = "Free-For-All Or Teams";
+                messageResult = "Move players to either all be in Free-For-All mode, or all be on a team.";
+                break;
+            case BoatManager.CanStartResult.CanStart:
+                titleResult = "Game Can Start";
+                messageResult = "If you are seeing this, this is a problem. The game should be able to start...";
+                break;
+            default:
+                titleResult = "Unexpected case...";
+                messageResult = "This should never happen. Our apologies.";
+                break;
+        }
+        ShowErrorMessage(titleResult, messageResult);
+    }
+
+    private void ShowErrorMessage(string title, string message) {
+        ToolTipManager.instance.DisplayMessage(title, message);
     }
 }

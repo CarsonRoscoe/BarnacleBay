@@ -15,6 +15,7 @@ using UnityEngine.UI;
 8 = 0/1/2/3/4/5/6/7 == 3.5
 */
 
+
 public class BoatManager : MonoBehaviour {
 	public static BoatManager instance;
 	public int MaxPlayers = 8;
@@ -31,6 +32,8 @@ public class BoatManager : MonoBehaviour {
 	private RectTransform bottom;
 	private RectTransform center;
 	private RectTransform[] shipRects;
+
+    public enum CanStartResult { NotEnoughPlayers, TooManyPlayers, NoPlayersTeamOne, NoPlayersTeamTwo, FFAAndTeam, CanStart }
 
 	void Awake() {
 		if (instance != null) {
@@ -99,20 +102,51 @@ public class BoatManager : MonoBehaviour {
 		}
 	}
 
-    public bool CanStart() {
+    public CanStartResult CanStart() {
         var IsTeam = false;
         var IsSolo = false;
+        var teamOneCount = 0;
+        var teamTwoCount = 0;
+        
+        //If less than 2 players or more than 8, don't start
+        if (AirConsole.instance.GetActivePlayerDeviceIds.Count < 2) {
+            return CanStartResult.NotEnoughPlayers;
+        }
+
+        if (AirConsole.instance.GetActivePlayerDeviceIds.Count > 8) {
+            return CanStartResult.TooManyPlayers;
+        }
+
         foreach(var teamSelection in PlayersSelection.Values) {
             if (teamSelection == TeamSelection.FreeForAll) {
                 IsSolo = true;
             } else {
-                IsTeam = true;
+                if (teamSelection == TeamSelection.One) {
+                    teamOneCount++;
+                } else {
+                    teamTwoCount++;
+                }
             }
         }
+        IsTeam = (teamOneCount + teamTwoCount) > 0;
+
+        //If we have either a team or a solo game
         if (!(IsTeam && IsSolo)) {
             GameDataManager.instance.GameType = IsTeam ? GameTeamType.Team : GameTeamType.FFA;
+        } else {
+            return CanStartResult.FFAAndTeam;
         }
-        return !(IsTeam && IsSolo);
+
+        if (IsTeam) {
+            if (teamOneCount == 0) {
+                return CanStartResult.NoPlayersTeamOne;
+            } else if (teamTwoCount == 0) {
+                return CanStartResult.NoPlayersTeamTwo;
+            }
+        }
+
+
+        return CanStartResult.CanStart;
     }
 
 	public void SetPlayerTeamSelection(int deviceID, int teamSelectionDirection) {
